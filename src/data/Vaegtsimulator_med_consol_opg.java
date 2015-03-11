@@ -23,8 +23,7 @@ public class Vaegtsimulator_med_consol_opg {
 	private static DataOutputStream outstream;
 
 	public static void printmenu(){
-		for (int i=0;i<25;i++)
-			System.out.println("                                                 ");
+		for (int i=0;i<25;i++) System.out.println(" ");
 		System.out.println("*************************************************");
 		System.out.println("Netto: " + (brutto-tara)+ " kg"                   );
 		System.out.println("Instruktionsdisplay: " +  indstruktionsDisplay    );

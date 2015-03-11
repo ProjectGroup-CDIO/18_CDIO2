@@ -118,7 +118,7 @@ public class Funktionalitet implements IFunktionalitet {
 
 	@Override
 	public double weightCalc(double netto, double tara, String id) {
-		Log.UpdateLog("Afvejning:Netto: "+netto +" Tara: "+tara, id);
+		Log.UpdateLog("Afvejning:Netto: "+netto +", Tara: "+tara, id);
 		return netto + tara;
 	}
 }
