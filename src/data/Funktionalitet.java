@@ -10,9 +10,9 @@ public class Funktionalitet implements IFunktionalitet {
 	UserCommandLog Log = new UserCommandLog();
 	
 	boolean ADMIN = true;
-	int Vaegt;
-	int Tara;
-	int Brutto = Vaegt+Tara;
+	int vaegt;
+	int tara;
+	int brutto = vaegt+tara;
 	public boolean adminLogin;
 	
 	@Override
@@ -108,13 +108,11 @@ public class Funktionalitet implements IFunktionalitet {
 	
 	//Just something initially made - should not look like this.
 	public void isAdmin(boolean AdminActive){
-
 		ADMIN = AdminActive;
 	}
 
 	@Override
-	public boolean adminState() {
-		
+	public boolean adminState() {	
 		return ADMIN;
 	}
 
