@@ -12,8 +12,8 @@ public interface IFunktionalitet {
 	public void updateOperator(OperatoerDTO opr)throws DALException;
 	public List<OperatoerDTO> ShowOperators()throws DALException;
 	public double weightCalc(double Netto, double TaraString, String id);
-	public void isAdmin(boolean AdminActive);
-	public boolean adminState();
+	public void setAdmin(boolean isAdmin);
+	public boolean isAdmin();
 	
 
 }

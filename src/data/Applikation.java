@@ -14,7 +14,7 @@ public class Applikation extends Funktionalitet  {
 
 	IFunktionalitet funktion = new Funktionalitet();
 	Scanner tastatur = new java.util.Scanner(System.in);
-	UserCommandLog UpdateData = new UserCommandLog();
+	UserCommandLog updateData = new UserCommandLog();
 
 	public void App() throws DALException {
 		System.out.println("______________________________________");
@@ -42,9 +42,9 @@ public class Applikation extends Funktionalitet  {
 				System.out.println("Access granted");
 				while(true){
 					if(Integer.parseInt(brugerId) < 11){
-						funktion.isAdmin(true);
+						funktion.setAdmin(true);
 					}else{
-						funktion.isAdmin(false);
+						funktion.setAdmin(false);
 					}
 					String valg;
 
@@ -53,7 +53,7 @@ public class Applikation extends Funktionalitet  {
 						funktion.getOperatoer(oprId);
 					}
 
-					if(funktion.adminState()){
+					if(funktion.isAdmin()){
 
 						System.out.println("________________________________________");
 						System.out.println(" Welcome back, admin! What do you want to do");

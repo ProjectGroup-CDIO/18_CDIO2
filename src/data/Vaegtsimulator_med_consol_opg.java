@@ -10,27 +10,23 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * @author Thomas
- *
- */
+
 public class Vaegtsimulator_med_consol_opg {
 	static ServerSocket listener;
-	private static double brutto=0;
-	private static double tara=0;
+	private static double brutto = 0;
+	private static double tara = 0;
 	private static String inline;
-	private static String IndstruktionsDisplay= "";
+	private static String indstruktionsDisplay= "";
 	private static int portdst = 8000;
 	private static Socket sock;
 	private static BufferedReader instream;
 	private static DataOutputStream outstream;
 
 	public static void printmenu(){
-		for (int i=0;i<25;i++)
-			System.out.println("                                                 ");
+		for (int i=0;i<25;i++) System.out.println(" ");
 		System.out.println("*************************************************");
 		System.out.println("Netto: " + (brutto-tara)+ " kg"                   );
-		System.out.println("Instruktionsdisplay: " +  IndstruktionsDisplay    );
+		System.out.println("Instruktionsdisplay: " +  indstruktionsDisplay    );
 		System.out.println("*************************************************");
 		System.out.println("                                                 ");
 		System.out.println("                                                 ");
@@ -69,9 +65,9 @@ public class Vaegtsimulator_med_consol_opg {
 				}
 				else if (inline.startsWith("D")){
 					if (inline.equals("D"))
-						IndstruktionsDisplay="";
+						indstruktionsDisplay="";
 					else
-						IndstruktionsDisplay=(inline.substring(2, inline.length()));
+						indstruktionsDisplay=(inline.substring(2, inline.length()));
 					printmenu();
 					outstream.writeBytes("D A"+"\r\n");
 				}
