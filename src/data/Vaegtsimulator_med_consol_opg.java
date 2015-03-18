@@ -55,43 +55,44 @@ public class Vaegtsimulator_med_consol_opg {
 	}
 
 	public static void main(String[] args) throws IOException{
-		System.out.println("Venter paa connection paa port " + portdst );
-		System.out.println("Indtast eventuel portnummer som 1. argument");
-		System.out.println("paa kommando linien for andet portnr");
+		System.out.println("Indtast ønsket port# eller tryk ENTER for port 8000");
 		//printmenu();
-		
-		Scanner scan = new Scanner(System.in);
-		
-		String input = scan.nextLine();
-		int inputInt = Integer.parseInt(input);
+
+		String input;
+		int inputInt;
 		
 		while(true){
-			if(inputInt >= 1 && inputInt <= 65536) {
-				portdst = inputInt;
-
-			}
-			try {
+			input = keyb.nextLine();
+			if(input.equals("")){
 				listener = new ServerSocket(portdst);
 				break;
-			} catch (BindException e1) {
-				System.out.println(e1.getMessage()+".. Try again");
-				//			e1.printStackTrace();
 			}
+			inputInt = Integer.parseInt(input);
+			if(inputInt >= 1 && inputInt <= 65536) {
+				portdst = inputInt;
+				try {
+					listener = new ServerSocket(portdst);
+					break;
+				} catch (BindException e1) {
+					System.out.println(e1.getMessage()+".. Try again");
+					//			e1.printStackTrace();
+				}
+			} else System.out.println("Port# skal være 1 - 65536");
 		}
 		//This halts the program until someone makes a connection with it.
-		System.out.println("Server venter på forbindelse:");
+		System.out.println("Server venter på forbindelse på port " + portdst);
 		sock = listener.accept();
-		
+
 		instream = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 		outstream = new DataOutputStream(sock.getOutputStream());
 		printmenu();
 		try{
-			
+
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
 				//When we get a message with RM20 8 we will reply with a message from the server.
 				if (inline.startsWith("RM20 8")){
-					System.out.println(inline.substring(7, inline.length()));
-					input = scan.nextLine();
+					inline = inline.substring(7, inline.length());
+					input = keyb.nextLine();
 					outstream.writeBytes(input+ "\r\n");
 				}
 				else if (inline.startsWith("D")){
