@@ -33,9 +33,11 @@ public class Vaegtsimulator_med_consol_opg {
 		System.out.println("                                                 ");
 		System.out.println("Debug info:                                      ");
 		try {
-			System.out.println("Hooked up to " + sock.getInetAddress()            );
+			System.out.println("Hooked up to " + sock.getInetAddress().getLocalHost()            );
 		} catch (NullPointerException e) {
 			System.out.println("Hooked up to n/a");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		System.out.println("Brutto: " + (brutto)+ " kg"                       );
 		System.out.println("Streng modtaget: "+inline)                         ;
@@ -55,20 +57,27 @@ public class Vaegtsimulator_med_consol_opg {
 		System.out.println("Venter paa connection paa port " + portdst );
 		System.out.println("Indtast eventuel portnummer som 1. argument");
 		System.out.println("paa kommando linien for andet portnr");
+		
 		Scanner scan = new Scanner(System.in);
 		String input = scan.nextLine();
 		int inputInt = Integer.parseInt(input);
-		if(input.equals(inputInt >= 1 && inputInt <= 65536)) {
-			portdst = inputInt;
+		
+		while(true){
+			if(inputInt >= 1 && inputInt <= 65536) {
+				portdst = inputInt;
+			}
+
+			try {
+				listener = new ServerSocket(portdst);
+				break;
+			} catch (BindException e1) {
+				System.out.println(e1.getMessage()+".. Try again");
+				//			e1.printStackTrace();
+			}
 		}
 		
-		try {
-			listener = new ServerSocket(portdst);
-			sock = listener.accept();
-		} catch (BindException e1) {
-			System.out.println(e1.getMessage());
-//			e1.printStackTrace();
-		}
+		sock = listener.accept();
+		scan.close();
 		
 		printmenu();
 		instream = new BufferedReader(new InputStreamReader(sock.getInputStream()));
