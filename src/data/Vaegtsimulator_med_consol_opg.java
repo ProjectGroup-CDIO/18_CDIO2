@@ -59,15 +59,19 @@ public class Vaegtsimulator_med_consol_opg {
 		//printmenu();
 
 		String input;
-		int inputInt;
-		
+		int inputInt = 0;
+
 		while(true){
 			input = keyb.nextLine();
 			if(input.equals("")){
 				listener = new ServerSocket(portdst);
 				break;
 			}
-			inputInt = Integer.parseInt(input);
+			try {
+				inputInt = Integer.parseInt(input);
+			} catch (NumberFormatException e) {
+				//System.out.println(e.getMessage());
+			}
 			if(inputInt >= 1 && inputInt <= 65536) {
 				portdst = inputInt;
 				try {
@@ -75,7 +79,7 @@ public class Vaegtsimulator_med_consol_opg {
 					break;
 				} catch (BindException e1) {
 					System.out.println(e1.getMessage()+".. Try again");
-					//			e1.printStackTrace();
+					//e1.printStackTrace();
 				}
 			} else System.out.println("Port# skal være 1 - 65536");
 		}
