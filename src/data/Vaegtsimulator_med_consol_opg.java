@@ -33,7 +33,7 @@ public class Vaegtsimulator_med_consol_opg {
 		System.out.println("                                                 ");
 		System.out.println("Debug info:                                      ");
 		try {
-			System.out.println("Hooked up to " + sock.getInetAddress().getLocalHost()            );
+			System.out.println("Hooked up to " + sock.getInetAddress()            );
 		} catch (NullPointerException e) {
 			System.out.println("Hooked up to n/a");
 		} catch (Exception e) {
