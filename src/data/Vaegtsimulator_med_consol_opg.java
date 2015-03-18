@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 
 public class Vaegtsimulator_med_consol_opg {
 	static ServerSocket listener;
+	static Scanner keyb = new Scanner(System.in);
 	private static double brutto = 0;
 	private static double tara = 0;
 	private static String inline;
@@ -51,6 +53,7 @@ public class Vaegtsimulator_med_consol_opg {
 		System.out.println("Venter paa connection paa port " + portdst );
 		System.out.println("Indtast eventuel portnummer som 1. argument");
 		System.out.println("paa kommando linien for andet portnr");
+		
 		sock = listener.accept();
 		instream = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 		outstream = new DataOutputStream(sock.getOutputStream());
