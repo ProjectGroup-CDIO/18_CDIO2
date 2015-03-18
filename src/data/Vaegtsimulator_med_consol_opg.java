@@ -44,7 +44,7 @@ public class Vaegtsimulator_med_consol_opg {
 		System.out.println("Streng modtaget: "+inline)                         ;
 		System.out.println("                                                 ");
 		System.out.println("Denne vegt simulator lytter på ordrene           ");
-		System.out.println("D, DN, S, T, B, Q                                ");
+		System.out.println("D, RM20 8, S, T, B, Q                                ");
 		System.out.println("paa kommunikationsporten.                        ");
 		System.out.println("******");
 		System.out.println("Tast T for tara (svarende til knaptryk paa vegt)");
@@ -55,7 +55,6 @@ public class Vaegtsimulator_med_consol_opg {
 	}
 
 	public static void main(String[] args) throws IOException{
-		System.out.println(InetAddress.getLocalHost());
 		System.out.println("Venter paa connection paa port " + portdst );
 		System.out.println("Indtast eventuel portnummer som 1. argument");
 		System.out.println("paa kommando linien for andet portnr");
@@ -69,13 +68,10 @@ public class Vaegtsimulator_med_consol_opg {
 		while(true){
 			if(inputInt >= 1 && inputInt <= 65536) {
 				portdst = inputInt;
-				System.out.println("1");
-			}
 
+			}
 			try {
-				System.out.println("2");
 				listener = new ServerSocket(portdst);
-				System.out.println("3");
 				break;
 			} catch (BindException e1) {
 				System.out.println(e1.getMessage()+".. Try again");
@@ -83,19 +79,20 @@ public class Vaegtsimulator_med_consol_opg {
 			}
 		}
 		//This halts the program until someone makes a connection with it.
+		System.out.println("Server venter på forbindelse:");
 		sock = listener.accept();
-		
-		scan.close();
 		
 		instream = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 		outstream = new DataOutputStream(sock.getOutputStream());
 		printmenu();
 		try{
+			
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
+				//When we get a message with RM20 8 we will reply with a message from the server.
 				if (inline.startsWith("RM20 8")){
-
-					// ikke implimenteret
-
+					System.out.println(inline.substring(7, inline.length()));
+					input = scan.nextLine();
+					outstream.writeBytes(input+ "\r\n");
 				}
 				else if (inline.startsWith("D")){
 					if (inline.equals("D"))
