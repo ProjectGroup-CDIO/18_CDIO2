@@ -49,6 +49,7 @@ public class Vaegtsimulator_med_consol_opg {
 	}
 
 	public static void main(String[] args) throws IOException{
+		printmenu();
 		listener = new ServerSocket(portdst);
 		System.out.println("Venter paa connection paa port " + portdst );
 		System.out.println("Indtast eventuel portnummer som 1. argument");
@@ -60,7 +61,8 @@ public class Vaegtsimulator_med_consol_opg {
 		printmenu();
 		try{
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
-				if (inline.startsWith("DN")){
+				if (inline.startsWith("RM20 8")){
+
 					// ikke implimenteret
 
 				}
@@ -70,27 +72,32 @@ public class Vaegtsimulator_med_consol_opg {
 					else
 						indstruktionsDisplay=(inline.substring(2, inline.length()));
 					printmenu();
-					outstream.writeBytes("DB"+"\r\n");
+					outstream.writeBytes("D A"+"\r\n");
 				}
 				else if (inline.startsWith("T")){
-					outstream.writeBytes("T " + (tara) + " kg "+"\r\n");
 					tara=brutto;
+					if(String.valueOf(tara).length() < 7 ){
+						outstream.writeBytes("T S      " + (tara) + "kg"+"\r\n");
+					}else{
+						outstream.writeBytes("You done goofed in the tara!");
+					}
 					printmenu();
 				}
 				else if (inline.startsWith("S")){
 					printmenu();
-					outstream.writeBytes("S " + (brutto-tara)+ " kg "  +"\r\n");
+					outstream.writeBytes("S S      " + (brutto-tara)+ "kg"  +"\r\n");
 				}
-				else if (inline.startsWith("B")){ // denne ordre findes 
-					//ikke på en fysisk vægt
+				else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 					String temp= inline.substring(2,inline.length());
-					brutto = Double.parseDouble(temp);
-					printmenu();
-					outstream.writeBytes("DB"+"\r\n");
+					if(temp.length() < 7){
+						brutto = Double.parseDouble(temp);
+						printmenu();
+						outstream.writeBytes("DB"+"\r\n");
+					}
 				}
 				else if ((inline.startsWith("Q"))){
 					System.out.println("");
-					System.out.println("Program stoppet Q modtaget paa com   port");
+					System.out.println("Program stoppet Q modtaget paa com port");
 					System.in.close();
 					System.out.close();
 					instream.close();
