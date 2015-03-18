@@ -7,8 +7,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.Scanner;
 
 
@@ -49,13 +48,26 @@ public class Vaegtsimulator_med_consol_opg {
 	}
 
 	public static void main(String[] args) throws IOException{
-		printmenu();
-		listener = new ServerSocket(portdst);
 		System.out.println("Venter paa connection paa port " + portdst );
 		System.out.println("Indtast eventuel portnummer som 1. argument");
 		System.out.println("paa kommando linien for andet portnr");
+		Scanner scan = new Scanner(System.in);
+		String input = scan.nextLine();
+		int inputInt = Integer.parseInt(input);
+		if(input.equals(inputInt >= 1 && inputInt <= 65536)) {
+			portdst = inputInt;
+			printmenu();
+		}
 		
-		sock = listener.accept();
+		try {
+			listener = new ServerSocket(portdst);
+			sock = listener.accept();
+		} catch (BindException e1) {
+			System.out.println(e1.getMessage());
+			e1.printStackTrace();
+		}
+		
+		printmenu();
 		instream = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 		outstream = new DataOutputStream(sock.getOutputStream());
 		printmenu();
