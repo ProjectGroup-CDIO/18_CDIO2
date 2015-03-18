@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream.GetField;
 import java.net.*;
 import java.util.Scanner;
 
@@ -43,7 +44,7 @@ public class Vaegtsimulator_med_consol_opg {
 		System.out.println("Streng modtaget: "+inline)                         ;
 		System.out.println("                                                 ");
 		System.out.println("Denne vegt simulator lytter på ordrene           ");
-		System.out.println("D, DN, S, T, B, Q                                ");
+		System.out.println("D, RM20 8, S, T, B, Q                                ");
 		System.out.println("paa kommunikationsporten.                        ");
 		System.out.println("******");
 		System.out.println("Tast T for tara (svarende til knaptryk paa vegt)");
@@ -57,16 +58,18 @@ public class Vaegtsimulator_med_consol_opg {
 		System.out.println("Venter paa connection paa port " + portdst );
 		System.out.println("Indtast eventuel portnummer som 1. argument");
 		System.out.println("paa kommando linien for andet portnr");
+		//printmenu();
 		
 		Scanner scan = new Scanner(System.in);
+		
 		String input = scan.nextLine();
 		int inputInt = Integer.parseInt(input);
 		
 		while(true){
 			if(inputInt >= 1 && inputInt <= 65536) {
 				portdst = inputInt;
-			}
 
+			}
 			try {
 				listener = new ServerSocket(portdst);
 				break;
@@ -75,20 +78,21 @@ public class Vaegtsimulator_med_consol_opg {
 				//			e1.printStackTrace();
 			}
 		}
-		
+		//This halts the program until someone makes a connection with it.
+		System.out.println("Server venter på forbindelse:");
 		sock = listener.accept();
-		scan.close();
 		
-		printmenu();
 		instream = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 		outstream = new DataOutputStream(sock.getOutputStream());
 		printmenu();
 		try{
+			
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
+				//When we get a message with RM20 8 we will reply with a message from the server.
 				if (inline.startsWith("RM20 8")){
-
-					// ikke implimenteret
-
+					System.out.println(inline.substring(7, inline.length()));
+					input = scan.nextLine();
+					outstream.writeBytes(input+ "\r\n");
 				}
 				else if (inline.startsWith("D")){
 					if (inline.equals("D"))
