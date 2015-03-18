@@ -82,7 +82,7 @@ public class Vaegtsimulator_med_consol_opg {
 				}
 				else if (inline.startsWith("S")){
 					printmenu();
-					outstream.writeBytes("S S" + (brutto-tara)+ "kg"  +"\r\n");
+					outstream.writeBytes("S S      " + (brutto-tara)+ "kg"  +"\r\n");
 				}
 				else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 					String temp= inline.substring(2,inline.length());
@@ -94,7 +94,7 @@ public class Vaegtsimulator_med_consol_opg {
 				}
 				else if ((inline.startsWith("Q"))){
 					System.out.println("");
-					System.out.println("Program stoppet Q modtaget paa com   port");
+					System.out.println("Program stoppet Q modtaget paa com port");
 					System.in.close();
 					System.out.close();
 					instream.close();
