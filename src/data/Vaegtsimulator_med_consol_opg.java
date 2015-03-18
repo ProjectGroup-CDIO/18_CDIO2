@@ -32,7 +32,11 @@ public class Vaegtsimulator_med_consol_opg {
 		System.out.println("                                                 ");
 		System.out.println("                                                 ");
 		System.out.println("Debug info:                                      ");
-		System.out.println("Hooked up to " + sock.getInetAddress()            );
+		try {
+			System.out.println("Hooked up to " + sock.getInetAddress()            );
+		} catch (NullPointerException e) {
+			System.out.println("Hooked up to n/a");
+		}
 		System.out.println("Brutto: " + (brutto)+ " kg"                       );
 		System.out.println("Streng modtaget: "+inline)                         ;
 		System.out.println("                                                 ");
@@ -56,7 +60,6 @@ public class Vaegtsimulator_med_consol_opg {
 		int inputInt = Integer.parseInt(input);
 		if(input.equals(inputInt >= 1 && inputInt <= 65536)) {
 			portdst = inputInt;
-			printmenu();
 		}
 		
 		try {
@@ -64,7 +67,7 @@ public class Vaegtsimulator_med_consol_opg {
 			sock = listener.accept();
 		} catch (BindException e1) {
 			System.out.println(e1.getMessage());
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		
 		printmenu();
