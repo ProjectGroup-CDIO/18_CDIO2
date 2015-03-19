@@ -47,6 +47,9 @@ public class Vaegtsimulator_med_consol_opg {
 		System.out.println("D, RM20 8, S, T, B, Q                                ");
 		System.out.println("paa kommunikationsporten.                        ");
 		System.out.println("******");
+		System.out.println("Tast D og din tekst for at ændre teksten på displayet");
+		System.out.println("Tast RM20 8 for at sende en besked til vaegten og få et svar fra vaegten");
+		System.out.println("Tast S for at få brutto - tara");
 		System.out.println("Tast T for tara (svarende til knaptryk paa vegt)");
 		System.out.println("Tast B for ny brutto (svarende til at belastningen paa vegt ændres)");
 		System.out.println("Tast Q for at afslutte program program");
@@ -87,10 +90,12 @@ public class Vaegtsimulator_med_consol_opg {
 		printmenu();
 		try{
 			
+			
+			
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
 				//When we get a message with RM20 8 we will reply with a message from the server.
 				if (inline.startsWith("RM20 8")){
-					System.out.println(inline.substring(7, inline.length()));
+					printmenu();
 					input = scan.nextLine();
 					outstream.writeBytes(input+ "\r\n");
 				}
@@ -126,11 +131,11 @@ public class Vaegtsimulator_med_consol_opg {
 				else if ((inline.startsWith("Q"))){
 					System.out.println("");
 					System.out.println("Program stoppet Q modtaget paa com port");
-					System.in.close();
-					System.out.close();
-					instream.close();
-					outstream.close();
-					System.exit(0);
+//					System.in.close();
+//					System.out.close();
+//					instream.close();
+//					outstream.close();
+//					System.exit(0);
 				}
 			}
 		}
