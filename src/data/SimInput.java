@@ -8,6 +8,7 @@ public class SimInput extends Thread {
 	@Override
 	public void run() {
 		while(true) {
+			
 			String input = keyb.nextLine();
 
 			if(!(input.isEmpty())) {

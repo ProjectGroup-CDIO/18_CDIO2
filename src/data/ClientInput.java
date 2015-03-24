@@ -16,7 +16,7 @@ public class ClientInput extends Thread {
 	private static DataOutputStream outstream;
 	private static String inline;
 	static Scanner keyb = new Scanner(System.in);
-	Socket sock;
+	private Socket sock;
 	
 	public ClientInput(Socket s) {
 		sock = s;
