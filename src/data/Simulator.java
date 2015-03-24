@@ -5,25 +5,24 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Simulator {
 
-	static ServerSocket listener;
+	static ServerSocket serverSock;
 	static Scanner keyb = new Scanner(System.in);
 	static SimInput simIn = new SimInput();
-	static ClientInput clientIn = new ClientInput();
 	private static double brutto = 0;
 	private static double tara = 0;
 	private static String inline;
 	private static String instruktionsDisplay= "";
 	private static int portdst = 8000;
 	private static Socket sock;
-	
+
 
 
 	public static void main(String[] args) throws IOException {
-
 		System.out.println("Indtast ønsket port# eller tryk ENTER for port 8000");
 		//printmenu();
 
@@ -33,7 +32,7 @@ public class Simulator {
 		while(true){
 			input = keyb.nextLine();
 			if(input.equals("")){
-				listener = new ServerSocket(portdst);
+				serverSock = new ServerSocket(portdst);
 				break;
 			}
 			try {
@@ -46,7 +45,7 @@ public class Simulator {
 			if(inputInt >= 1 && inputInt <= 65536) {
 				portdst = inputInt;
 				try {
-					listener = new ServerSocket(portdst);
+					serverSock = new ServerSocket(portdst);
 					break;
 				} catch (BindException e1) {
 					System.out.println("Error: "+e1.getMessage()+".. Try again");
@@ -54,13 +53,19 @@ public class Simulator {
 				}
 			} else System.out.println("Port# skal være 1 - 65536");
 		}
-		
+
 		System.out.println("Server venter på forbindelse på port " + portdst);
 		//This halts the program until someone makes a connection with it.
-		sock = listener.accept();
 
 		simIn.start();
-		clientIn.start();
+		while(true){			
+			Socket sock = serverSock.accept();
+			ClientInput clientIn = new ClientInput(sock);
+			clientIn.start();	
+			ArrayList<ClientInput> clientList = new ArrayList<ClientInput>();
+			clientList.add(clientIn);
+			
+		}
 
 	}
 
@@ -95,18 +100,18 @@ public class Simulator {
 	}
 
 	public static ServerSocket getListener() {
-		return listener;
+		return serverSock;
 	}
 
 	public static Socket getSock() {
 		return sock;
 	}
 
-	public static synchronized int getPortdst() {
+	public static int getPortdst() {
 		return portdst;
 	}
 
-	public static synchronized void setPortdst(int portdst) {
+	public static void setPortdst(int portdst) {
 		Simulator.portdst = portdst;
 	}
 
@@ -117,7 +122,7 @@ public class Simulator {
 	public static synchronized void setInstruktionsDisplay(String instruktionsDisplay) {
 		Simulator.instruktionsDisplay = instruktionsDisplay;
 	}
-	
+
 	public static synchronized double getBrutto() {
 		return brutto;
 	}
@@ -134,8 +139,8 @@ public class Simulator {
 		Simulator.tara = tara;
 	}
 
-	
-	
-	
+
+
+
 
 }

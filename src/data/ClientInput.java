@@ -8,6 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.net.*;
 
 
 public class ClientInput extends Thread {
@@ -15,21 +16,22 @@ public class ClientInput extends Thread {
 	private static DataOutputStream outstream;
 	private static String inline;
 	static Scanner keyb = new Scanner(System.in);
-
+	Socket sock;
+	
+	public ClientInput(Socket s) {
+		sock = s;
+	}
+	
+	@Override
 	public void run() {	
 		try {
-			instream = new BufferedReader(new InputStreamReader(Simulator.getSock().getInputStream()));
+			instream = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			outstream = new DataOutputStream(sock.getOutputStream());
 		} catch (IOException e1) {
 			System.out.println("Error: "+e1.getMessage());
-			e1.printStackTrace();
+			//e1.printStackTrace();
 		}
 
-		try {
-			outstream = new DataOutputStream(Simulator.getSock().getOutputStream());
-		} catch (IOException e1) {
-			System.out.println("Error: "+e1.getMessage());
-			e1.printStackTrace();
-		}
 		Simulator.printmenu();
 		while(true) {
 			try{
@@ -81,9 +83,9 @@ public class ClientInput extends Thread {
 						System.exit(0);
 					}
 				}
-			}
-			catch (Exception e){
+			}catch (Exception e){
 				System.out.println("Exception: "+e.getMessage());
+				e.printStackTrace();
 			}
 		}
 	}

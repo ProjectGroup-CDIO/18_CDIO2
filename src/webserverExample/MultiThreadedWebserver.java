@@ -8,7 +8,7 @@ public class MultiThreadedWebserver {
 		int port = 8001;
 		try {
 			serversocket = new ServerSocket(port);
-			System.out.println("Webserver er startet op og lytte p� port " + port);
+			System.out.println("Webserver er startet op og lytte på port " + port);
 			while (true) {
 				Socket connection = serversocket.accept();
 				System.out.println("asd");
