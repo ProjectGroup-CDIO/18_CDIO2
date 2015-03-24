@@ -12,7 +12,8 @@ public class Simulator {
 
 	static ServerSocket serverSock;
 	static Scanner keyb = new Scanner(System.in);
-	static SimInput simIn = new SimInput();
+	private static SimInput simIn = new SimInput();
+	private static ArrayList<ClientInput> clientList = new ArrayList<ClientInput>();
 	private static double brutto = 0;
 	private static double tara = 0;
 	private static String inline;
@@ -62,11 +63,9 @@ public class Simulator {
 			Socket sock = serverSock.accept();
 			ClientInput clientIn = new ClientInput(sock);
 			clientIn.start();	
-			ArrayList<ClientInput> clientList = new ArrayList<ClientInput>();
 			clientList.add(clientIn);
 			
 		}
-
 	}
 
 	public static void printmenu(){
