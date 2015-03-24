@@ -62,7 +62,7 @@ public class ClientInput extends Thread {
 					}
 					else if (inline.startsWith("S")){
 						Simulator.printmenu();
-						outstream.writeBytes("S S      " + (Simulator.getBrutto()-Simulator.getTara())+ "kg"  +"\r\n");
+						outstream.writeBytes("S S      " + (Simulator.getBrutto()-Simulator.getTara())+ " kg"  +"\r\n");
 					}
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 						String temp= inline.substring(2,inline.length()).trim();
