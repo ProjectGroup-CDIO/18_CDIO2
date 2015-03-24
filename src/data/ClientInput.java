@@ -35,6 +35,9 @@ public class ClientInput extends Thread {
 		Simulator.printmenu();
 		while(true) {
 			try{
+				if(sock == null){
+					break;
+				}
 
 				while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
 					//When we get a message with RM20 8 we will reply with a message from the server.
