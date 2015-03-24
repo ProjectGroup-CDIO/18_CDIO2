@@ -1,13 +1,10 @@
 package data;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -16,24 +13,24 @@ import javax.swing.*;
 
 public class Kommu {
 
-	@SuppressWarnings("deprecation")
-	public void Kommu() {
+
+	public void kommu() {
 		JFrame frame = new JFrame("asd");
 		//Data input
-		String IPinput = (String) JOptionPane.showInputDialog(frame, "input IP address");
-		String PortAdrres =(String) JOptionPane.showInputDialog(frame, "input port address");
+		String ipInput = (String) JOptionPane.showInputDialog(frame, "input IP address");
+		String portAdrres =(String) JOptionPane.showInputDialog(frame, "input port address");
 
 		Socket s = null;  
 		DataOutputStream outputStream = null;
 		InputStreamReader inputstream = null;
 		
-		System.out.println("IpAdress " +IPinput);
-		System.out.println("Port address " + PortAdrres);
+		System.out.println("IpAdress " +ipInput);
+		System.out.println("Port address " + portAdrres);
 		
 		Scanner scanner = new Scanner(System.in);
 
 		try {
-			s = new Socket(IPinput,Integer.parseInt(PortAdrres));
+			s = new Socket(ipInput,Integer.parseInt(portAdrres));
 			
 			outputStream = new DataOutputStream(s.getOutputStream());
 			
@@ -76,6 +73,6 @@ public class Kommu {
 
 			}
 
-		}
+		} scanner.close();
 	}
 }
