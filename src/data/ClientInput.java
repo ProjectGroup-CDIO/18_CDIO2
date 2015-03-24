@@ -35,10 +35,6 @@ public class ClientInput extends Thread {
 		Simulator.printmenu();
 		while(true) {
 			try{
-				if(sock == null){
-					break;
-				}
-
 				while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
 					//When we get a message with RM20 8 we will reply with a message from the server.
 					if (inline.startsWith("RM20 8")){
@@ -86,7 +82,14 @@ public class ClientInput extends Thread {
 						System.exit(0);
 					}
 				}
-			}catch (Exception e){
+			}catch(NullPointerException e1){
+				//when a client terminates his connection i.e closes his computer or connection program
+				//the connection is set to null -> this means that we have to handle the thread that is still running
+				
+				System.out.println("\nConnection has been terminated, closing thread");
+				break;
+			}
+			catch (Exception e){
 				System.out.println("Exception: "+e.getMessage());
 				e.printStackTrace();
 			}
