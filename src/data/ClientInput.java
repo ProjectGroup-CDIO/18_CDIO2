@@ -29,7 +29,7 @@ public class ClientInput extends Thread {
 			index = str.indexOf("\"",index);									//hvis ja opdateres index og der forsættes
 			if(str.startsWith("\"", str.indexOf("\"", index+1))) {
 				index = str.indexOf("\"",index+1);
-				if(str.startsWith(" ", index)) {
+				if(str.startsWith(" ", index)) {								//tjekker efter hver anden forekomst af ", om der er et mellemrum før det næste
 					if(str.startsWith("\"", str.indexOf("\"", index+1))) {
 						index = str.indexOf("\"",index+1);
 						if(str.startsWith("\"", str.indexOf("\"", index+1))) {
