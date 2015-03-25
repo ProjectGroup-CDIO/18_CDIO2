@@ -100,9 +100,9 @@ public class ClientInput extends Thread {
 							outstream.writeBytes("S"+"\r\n");	
 						}	
 					}else if (inline.equals("DW")){
-							Simulator.setWeightDisplay("");
-							Simulator.printmenu();
-							outstream.writeBytes("DW A"+"\r\n");
+						Simulator.setWeightDisplay("");
+						Simulator.printmenu();
+						outstream.writeBytes("DW A"+"\r\n");
 					}
 					else if (inline.startsWith("D")){
 						if (inline.equals("D")){
@@ -140,12 +140,17 @@ public class ClientInput extends Thread {
 						Simulator.printmenu();
 						outstream.writeBytes("S S      " + (Simulator.getBrutto()-Simulator.getTara())+ " kg"  +"\r\n");
 					}
-					else if (inline.equals("B")){ // denne ordre findes ikke på en fysisk vægt
-						String temp= inline.substring(2,inline.length()).trim();
-						if(temp.length() <= 7){
-							Simulator.setBrutto(Double.parseDouble(temp));
-							Simulator.printmenu();
-							outstream.writeBytes("DB"+"\r\n");
+					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
+						if(inline.length() > 5){
+							String temp= inline.substring(2,inline.length()-4).trim();
+							if(temp.length() <= 7){
+								Simulator.setBrutto(Double.parseDouble(temp));
+								Simulator.printmenu();
+								outstream.writeBytes("DB"+"\r\n");
+							}
+
+						}else{
+							outstream.writeBytes("S \r\n");	
 						}
 					}
 					else if ((inline.equals("Q"))){
@@ -157,7 +162,7 @@ public class ClientInput extends Thread {
 						outstream.close();
 						SimInput.stopGracefully();
 						System.exit(0);
-					
+
 					}
 				}
 			}catch(NullPointerException e1){
