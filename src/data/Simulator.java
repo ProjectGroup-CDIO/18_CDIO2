@@ -41,7 +41,6 @@ public class Simulator {
 				inputInt = Integer.parseInt(input);
 			} catch (NumberFormatException e) {
 				System.out.println("Error: "+e.getMessage());
-				//System.out.println(e.getMessage());
 			}
 			//Hvis der er number format exception er inputInt = 0 og if-sætningen køres ikke
 			if(inputInt >= 1 && inputInt <= 65536) {
@@ -65,7 +64,7 @@ public class Simulator {
 			ClientInput clientIn = new ClientInput(sock);
 			clientIn.start();	
 			clientList.add(clientIn);
-			
+			System.out.println("####"+clientList.size());
 		}
 	}
 

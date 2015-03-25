@@ -2,13 +2,19 @@ package data;
 import java.util.Scanner;
 
 public class SimInput extends Thread {
+	
+	private volatile boolean stop = false;
+	
+	public void stopGracefully (){
+		stop = true;
+	}
 
 	static Scanner keyb = new Scanner(System.in);
 	
 	@Override
 	public void run() {
-		while(true) {
-			
+		boolean finished = false;
+		while(!stop && !finished) {
 			String input = keyb.nextLine();
 
 			if(!(input.isEmpty())) {
