@@ -1,4 +1,6 @@
 package data;
+
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -46,6 +48,18 @@ public class SimInput extends Thread {
 						}
 						Simulator.printmenu();
 					}
+				} else if(input.toUpperCase().startsWith("Q")) {
+					System.out.println("");
+					System.out.println("Program stoppet Q modtaget paa com port");
+					try {
+						System.in.close();
+					} catch (IOException e) {
+						System.out.println("Fejl ved lukning af System.in.close()");
+						e.printStackTrace();
+					}
+					System.out.close();
+					System.exit(0);
+					SimInput.stopGracefully();
 				}
 			}	
 		}
