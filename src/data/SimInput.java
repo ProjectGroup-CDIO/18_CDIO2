@@ -1,11 +1,12 @@
 package data;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SimInput extends Thread {
 	
-	private volatile boolean stop = false;
+	private volatile static boolean stop = false;
 	
-	public void stopGracefully (){
+	public static void stopGracefully (){
 		stop = true;
 	}
 
@@ -13,9 +14,14 @@ public class SimInput extends Thread {
 	
 	@Override
 	public void run() {
-		boolean finished = false;
-		while(!stop && !finished) {
-			String input = keyb.nextLine();
+		while(!stop) {
+			String input = "";
+			try {
+				input = keyb.nextLine();
+			} catch (NoSuchElementException e1) {
+				System.out.println("Error: "+e1.getMessage());
+				//e1.printStackTrace();
+			}
 
 			if(!(input.isEmpty())) {
 				if(input.toUpperCase().startsWith("T")) {
@@ -44,4 +50,5 @@ public class SimInput extends Thread {
 			}	
 		}
 	}
+	
 }

@@ -137,6 +137,7 @@ public class ClientInput extends Thread {
 						instream.close();
 						outstream.close();
 						System.exit(0);
+						SimInput.stopGracefully();
 					}
 				}
 			}catch(NullPointerException e1){
