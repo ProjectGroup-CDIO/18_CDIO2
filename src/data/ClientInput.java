@@ -17,11 +17,38 @@ public class ClientInput extends Thread {
 	private String inline;
 	static Scanner keyb = new Scanner(System.in);
 	private Socket sock;
-	
+
 	public ClientInput(Socket s) {
 		sock = s;
 	}
-	
+
+
+	public boolean checkRM20(String str) {
+		int index = 0; 
+		if(str.startsWith("\"", str.indexOf("\"", index))) { 					//tjekker om en substring med start i index, starter med "
+			index = str.indexOf("\"",index);									//hvis ja opdateres index og der forsættes
+			if(str.startsWith("\"", str.indexOf("\"", index+1))) {
+				index = str.indexOf("\"",index+1);
+				if(str.startsWith(" ", index)) {								//tjekker efter hver anden forekomst af ", om der er et mellemrum før det næste
+					if(str.startsWith("\"", str.indexOf("\"", index+1))) {
+						index = str.indexOf("\"",index+1);
+						if(str.startsWith("\"", str.indexOf("\"", index+1))) {
+							index = str.indexOf("\"",index+1);
+							if(str.startsWith(" ", index)) {
+								if(str.startsWith("\"", str.indexOf("\"", index+1))) {
+									index = str.indexOf("\"",index);
+									if(str.startsWith("\"", str.indexOf("\"", index+1)) && str.indexOf("\"", index+1) == str.lastIndexOf("\"")) {
+										return true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}return false;
+	}
+
 	@Override
 	public void run() {	
 		try {
@@ -33,6 +60,7 @@ public class ClientInput extends Thread {
 		}
 
 		Simulator.printmenu();
+
 		while(true) {
 			try {
 				Thread.sleep(35);
@@ -44,11 +72,12 @@ public class ClientInput extends Thread {
 					System.out.println(inline);
 					//When we get a message with RM20 8 we will reply with a message from the server.
 					if (inline.startsWith("RM20 8")){
-						inline = inline.substring(7, inline.length());
-						String input = keyb.nextLine();
-						outstream.writeBytes(input+ "\r\n");
-						
-					
+						inline = inline.substring(7, inline.length()).trim();
+						if(checkRM20(inline)) {
+							Simulator.setInstruktionsDisplay(inline);
+							String input = keyb.nextLine();
+							outstream.writeBytes(input+ "\r\n");
+						}
 					}
 					else if (inline.startsWith("D")){
 						if (inline.equals("D"))
@@ -69,7 +98,7 @@ public class ClientInput extends Thread {
 					}
 					else if (inline.startsWith("S")){
 						Simulator.printmenu();
-						outstream.writeBytes("S S      " + (Simulator.getBrutto()-Simulator.getTara())+ "kg"  +"\r\n");
+						outstream.writeBytes("S S      " + (Simulator.getBrutto()-Simulator.getTara())+ " kg"  +"\r\n");
 					}
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 						String temp= inline.substring(2,inline.length()).trim();
@@ -92,7 +121,7 @@ public class ClientInput extends Thread {
 			}catch(NullPointerException e1){
 				//when a client terminates his connection i.e closes his computer or connection program
 				//the connection is set to null -> this means that we have to handle the thread that is still running
-				
+
 				System.out.println("\nConnection has been terminated, closing thread");
 				break;
 			}
