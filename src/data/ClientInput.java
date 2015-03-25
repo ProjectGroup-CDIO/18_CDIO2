@@ -23,25 +23,35 @@ public class ClientInput extends Thread {
 	}
 
 
-	public boolean checkRM20(String str) {
-		int index = 0; 
-		int nrOfAnf = 0;
-		int[] anfPlacement = new int[6];
-		for(int i = 0; i < str.length(); i++){
-			if(str.substring(i, i).equals("\"")){
-				anfPlacement[i] = i;
-				nrOfAnf++;
+	/**
+	 * This method checks if a String meets the requirements set for the RM20 command, set by the SISC protocol.
+	 * @param str input String
+	 * @return if true, the input String meets the requirements for the RM20 command.
+	 */
+
+	public static boolean checkRM20(String str) {
+		int i = 0;
+		int count = 0;
+		int indexes[] = new int[6];
+		int j = 0;
+		while(i < str.length()) {
+			if(str.charAt(i) == '\"') {
+				indexes[j] = i;
+				j++;
+				count++;
+
 			}
+
+			i++;
 		}
-		if(nrOfAnf == 6 && str.substring(anfPlacement[2], anfPlacement[2]+2).equals(" \"") 
-				&& str.substring(anfPlacement[4], anfPlacement[4]+2).equals(" \"")
-				&& str.substring(anfPlacement[6], anfPlacement[6]+2).equals("\r\n")
-				){
-		return true;
-		}
-		
-		return false;
+		if(count == 6) {
+			if(str.charAt(indexes[1]+1)== ' ' && str.charAt(indexes[3]+1) == ' '
+					&& str.indexOf('\"', indexes[5]) == str.lastIndexOf('\"')) {
+				return true;				
+			} else return false;
+		}else return false;
 	}
+
 
 	@Override
 	public void run() {	
@@ -59,7 +69,7 @@ public class ClientInput extends Thread {
 			try {
 				Thread.sleep(35);
 			} catch (InterruptedException e2) {
-				
+				//doesn't really matter if interrupted
 			}
 			try{
 				while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
@@ -70,7 +80,9 @@ public class ClientInput extends Thread {
 						if(checkRM20(inline)) {
 							Simulator.setInstruktionsDisplay(inline);
 							String input = keyb.nextLine();
-							outstream.writeBytes(input+ "\r\n");
+							if(input.equals("")) {
+								continue;
+							} else outstream.writeBytes(input+ "\r\n");
 						}
 					}
 					else if (inline.startsWith("D")){
@@ -80,11 +92,11 @@ public class ClientInput extends Thread {
 
 						else{
 							if(inline.substring(2, inline.length()).length() <= 7){
-							Simulator.setWeightDisplay(inline.substring(2, inline.length()).trim());
+								Simulator.setWeightDisplay(inline.substring(2, inline.length()).trim());
 							}else{
-							outstream.writeBytes("S"+"\r\n");	
+								outstream.writeBytes("S"+"\r\n");	
 							}
-							
+
 						}
 						Simulator.printmenu();
 						outstream.writeBytes("D A"+"\r\n");
@@ -123,7 +135,6 @@ public class ClientInput extends Thread {
 			}catch(NullPointerException e1){
 				//when a client terminates his connection i.e closes his computer or connection program
 				//the connection is set to null -> this means that we have to handle the thread that is still running
-
 				System.out.println("\nConnection has been terminated, closing thread");
 				break;
 			}

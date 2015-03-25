@@ -22,8 +22,6 @@ public class Simulator {
 	private static int portdst = 8000;
 	private static Socket sock;
 
-
-
 	public static void main(String[] args) throws IOException {
 		System.out.println("Indtast ønsket port# eller tryk ENTER for port 8000");
 		//printmenu();
