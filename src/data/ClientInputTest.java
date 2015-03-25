@@ -13,7 +13,7 @@ public class ClientInputTest {
 
 	@Test
 	public void testCheckRM20() {
-		String RM20 = "\"hey there\" \"how are you doing\" \"good?\"";
+		String RM20 = "\"hey there\" \"how are you doing\" \"good?\" \r\n";
 //		String RM20 = " \"\" \"\" \"\" ";
 		assertTrue(ClientInput.checkRM20(RM20));
 	}
