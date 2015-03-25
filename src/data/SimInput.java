@@ -1,5 +1,7 @@
 package data;
+
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SimInput extends Thread {
@@ -15,7 +17,13 @@ public class SimInput extends Thread {
 	@Override
 	public void run() {
 		while(!stop) {
-			String input = keyb.nextLine();
+			String input = "";
+			try {
+				input = keyb.nextLine();
+			} catch (NoSuchElementException e1) {
+				System.out.println("Error: "+e1.getMessage());
+				//e1.printStackTrace();
+			}
 
 			if(!(input.isEmpty())) {
 				if(input.toUpperCase().startsWith("T")) {

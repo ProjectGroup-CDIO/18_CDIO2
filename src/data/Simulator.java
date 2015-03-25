@@ -93,7 +93,7 @@ public class Simulator {
 		System.out.println("Streng modtaget: "+inline)                         ;
 		System.out.println("                                                 ");
 		System.out.println("Denne vegt simulator lytter på ordrene           ");
-		System.out.println("D, RM20 8, S, T, B, Q                                ");
+		System.out.println("D, RM20 8, S, T, B, Q, P111                      ");
 		System.out.println("paa kommunikationsporten.                        ");
 		System.out.println("******");
 		System.out.println("Tast T for tara (svarende til knaptryk paa vegt)");
