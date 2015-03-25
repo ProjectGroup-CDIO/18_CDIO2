@@ -17,7 +17,8 @@ public class Simulator {
 	private static double brutto = 0;
 	private static double tara = 0;
 	private static String inline;
-	private static String instruktionsDisplay= "";
+	private static String instruktionsDisplay = "";
+	private static String weightDisplay = "";
 	private static int portdst = 8000;
 	private static Socket sock;
 
@@ -72,6 +73,7 @@ public class Simulator {
 		for (int i=0;i<25;i++) System.out.println(" ");
 		System.out.println("*************************************************");
 		System.out.println("Netto: " + (brutto-tara)+ " kg"                   );
+		System.out.println("Weightdisplay: " + weightDisplay);
 		System.out.println("Instruktionsdisplay: " +  instruktionsDisplay    );
 		System.out.println("*************************************************");
 		System.out.println("                                                 ");
@@ -136,6 +138,11 @@ public class Simulator {
 
 	public static synchronized void setTara(double tara) {
 		Simulator.tara = tara;
+	}
+
+	public static void setWeightDisplay(String input) {
+		weightDisplay = input;
+		
 	}
 
 
