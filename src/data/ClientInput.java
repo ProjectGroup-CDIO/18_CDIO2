@@ -22,32 +22,33 @@ public class ClientInput extends Thread {
 		sock = s;
 	}
 
-
-	public boolean checkRM20(String str) {
-		int index = 0; 
-		if(str.startsWith("\"", str.indexOf("\"", index))) { 					//tjekker om en substring med start i index, starter med "
-			index = str.indexOf("\"",index);									//hvis ja opdateres index og der forsættes
-			if(str.startsWith("\"", str.indexOf("\"", index+1))) {
-				index = str.indexOf("\"",index+1);
-				if(str.startsWith(" ", index)) {								//tjekker efter hver anden forekomst af ", om der er et mellemrum før det næste
-					if(str.startsWith("\"", str.indexOf("\"", index+1))) {
-						index = str.indexOf("\"",index+1);
-						if(str.startsWith("\"", str.indexOf("\"", index+1))) {
-							index = str.indexOf("\"",index+1);
-							if(str.startsWith(" ", index)) {
-								if(str.startsWith("\"", str.indexOf("\"", index+1))) {
-									index = str.indexOf("\"",index);
-									if(str.startsWith("\"", str.indexOf("\"", index+1)) && str.indexOf("\"", index+1) == str.lastIndexOf("\"")) {
-										return true;
-									}
-								}
-							}
-						}
-					}
-				}
+	/**
+	 * This method checks if a String meets the requirements set for the RM20 command, set by the SISC protocol.
+	 * @param str input String
+	 * @return if true, the input String meets the requirements for the RM20 command.
+	 */
+	
+	public static boolean checkRM20(String str) {
+		int i = 0;
+		int count = 0;
+		int indexes[] = new int[6];
+		int j = 0;
+		while(i < str.length()) {
+			if(str.charAt(i) == '\"') {
+				indexes[j] = i;
+				j++;
+				count++;
 			}
-		}return false;
+			i++;
+		}
+		if(count == 6) {
+			if(str.charAt(indexes[1]+1)== ' ' && str.charAt(indexes[3]+1) == ' '
+					&& str.indexOf('\"', indexes[5]) == str.lastIndexOf('\"')) {
+				return true;				
+			} else return false;
+		}else return false;
 	}
+	
 
 	@Override
 	public void run() {	
@@ -65,7 +66,7 @@ public class ClientInput extends Thread {
 			try {
 				Thread.sleep(35);
 			} catch (InterruptedException e2) {
-				
+				//doesn't really matter if interrupted
 			}
 			try{
 				while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
@@ -76,7 +77,9 @@ public class ClientInput extends Thread {
 						if(checkRM20(inline)) {
 							Simulator.setInstruktionsDisplay(inline);
 							String input = keyb.nextLine();
-							outstream.writeBytes(input+ "\r\n");
+							if(input.equals("")) {
+								continue;
+							} else outstream.writeBytes(input+ "\r\n");
 						}
 					}
 					else if (inline.startsWith("D")){
@@ -121,7 +124,6 @@ public class ClientInput extends Thread {
 			}catch(NullPointerException e1){
 				//when a client terminates his connection i.e closes his computer or connection program
 				//the connection is set to null -> this means that we have to handle the thread that is still running
-
 				System.out.println("\nConnection has been terminated, closing thread");
 				break;
 			}
