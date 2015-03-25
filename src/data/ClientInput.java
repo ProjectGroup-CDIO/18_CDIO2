@@ -82,8 +82,9 @@ public class ClientInput extends Thread {
 							Simulator.setInstruktionsDisplay(inline);
 							String input = keyb.nextLine();
 							if(input.equals("")) {
+								outstream.writeBytes("RM20 B"+"\r\n");
 								continue;
-							} else outstream.writeBytes(input+ "\r\n");
+							} else outstream.writeBytes("RM20 A \""+input+ "\"\r\n");
 						}
 					}else if(inline.startsWith("P111")){
 						if(inline.length() <= 35){
