@@ -77,6 +77,7 @@ public class ClientInput extends Thread {
 					//When we get a message with RM20 8 we will reply with a message from the server.
 					if (inline.startsWith("RM20 8")){
 						inline = inline.substring(7, inline.length()).trim();
+						//Validation check
 						if(checkRM20(inline)) {
 							Simulator.setInstruktionsDisplay(inline);
 							String input = keyb.nextLine();
@@ -84,8 +85,20 @@ public class ClientInput extends Thread {
 								continue;
 							} else outstream.writeBytes(input+ "\r\n");
 						}
-					}
-					else if (inline.startsWith("D")){
+					}else if(inline.startsWith("P111")){
+						if(inline.length() <= 35){
+							if(inline.charAt(6)== '\"' && inline.charAt(inline.length()-1) == '\"'){
+								Simulator.setInstruktionsDisplay(inline.substring(3, inline.length()-1).trim());
+								Simulator.printmenu();
+								outstream.writeBytes("D A"+"\r\n");
+							}
+							else{
+								outstream.writeBytes("S"+"\r\n");
+							}
+						}else{
+							outstream.writeBytes("S"+"\r\n");	
+						}	
+					}else if (inline.startsWith("D")){
 						if (inline.equals("D")){
 							Simulator.setWeightDisplay("");
 							Simulator.printmenu();
