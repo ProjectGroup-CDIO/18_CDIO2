@@ -39,14 +39,16 @@ public class ClientInput extends Thread {
 				indexes[j] = i;
 				j++;
 				count++;
-
 			}
 
 			i++;
-		}
+
+			}
 		if(count == 6) {
-			if(str.charAt(indexes[1]+1)== ' ' && str.charAt(indexes[3]+1) == ' '
-					&& str.indexOf('\"', indexes[5]) == str.lastIndexOf('\"')) {
+			//check to see if there one and only one space between the 2-3 and 4-5 quotations marks
+			if(str.charAt(indexes[1]+1)== ' ' && str.charAt(indexes[1]+2) == '\"'
+					&& str.charAt(indexes[3]+1) == ' ' && str.charAt(indexes[3]+2) == '\"' &&
+					str.indexOf('\"', indexes[5]) == str.lastIndexOf('\"')) {
 				return true;				
 			} else return false;
 		}else return false;
