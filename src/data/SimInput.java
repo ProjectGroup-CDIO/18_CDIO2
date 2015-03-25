@@ -54,12 +54,12 @@ public class SimInput extends Thread {
 					try {
 						System.in.close();
 					} catch (IOException e) {
-						System.out.println("Fejl ved lukning af System.in.close()");
+						System.out.println("Fejl ved System.in.close()");
 						e.printStackTrace();
 					}
+					SimInput.stopGracefully();
 					System.out.close();
 					System.exit(0);
-					SimInput.stopGracefully();
 				}
 			}	
 		}

@@ -84,11 +84,20 @@ public class ClientInput extends Thread {
 							if(input.equals("")) {
 								outstream.writeBytes("RM20 B"+"\r\n");
 								continue;
-							} else outstream.writeBytes("RM20 A \""+input+ "\"\r\n");
+							} else if(input.charAt(0) != '\"' && input.charAt(input.length()-1) != '\"') {
+								input = "\""+input+"\"";
+								outstream.writeBytes("RM20 A "+input+ "\r\n");
+							} else if(input.charAt(input.length()-1) != '\"') {
+								input = input+"\"";
+								outstream.writeBytes("RM20 A "+input+ "\r\n");
+							} else if(input.charAt(0) != '\"') {
+								input = "\""+input;
+								outstream.writeBytes("RM20 A "+input+ "\r\n");
+							} else outstream.writeBytes("RM20 A "+input+ "\r\n");
 						}
 					}else if(inline.startsWith("P111")){
 						if(inline.length() <= 35){
-							if(inline.charAt(6)== '\"' && inline.charAt(inline.length()-1) == '\"'){
+							if(inline.charAt(5)== '\"' && inline.charAt(inline.length()-1) == '\"'){
 								Simulator.setInstruktionsDisplay(inline.substring(3, inline.length()-1).trim());
 								Simulator.printmenu();
 								outstream.writeBytes("D A"+"\r\n");
