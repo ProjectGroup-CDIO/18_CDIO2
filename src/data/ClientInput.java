@@ -22,12 +22,13 @@ public class ClientInput extends Thread {
 		sock = s;
 	}
 
+
 	/**
 	 * This method checks if a String meets the requirements set for the RM20 command, set by the SISC protocol.
 	 * @param str input String
 	 * @return if true, the input String meets the requirements for the RM20 command.
 	 */
-	
+
 	public static boolean checkRM20(String str) {
 		int i = 0;
 		int count = 0;
@@ -39,16 +40,20 @@ public class ClientInput extends Thread {
 				j++;
 				count++;
 			}
+
 			i++;
-		}
+
+			}
 		if(count == 6) {
-			if(str.charAt(indexes[1]+1)== ' ' && str.charAt(indexes[3]+1) == ' '
-					&& str.indexOf('\"', indexes[5]) == str.lastIndexOf('\"')) {
+			//check to see if there one and only one space between the 2-3 and 4-5 quotations marks
+			if(str.charAt(indexes[1]+1)== ' ' && str.charAt(indexes[1]+2) == '\"'
+					&& str.charAt(indexes[3]+1) == ' ' && str.charAt(indexes[3]+2) == '\"' &&
+					str.indexOf('\"', indexes[5]) == str.lastIndexOf('\"')) {
 				return true;				
 			} else return false;
 		}else return false;
 	}
-	
+
 
 	@Override
 	public void run() {	
@@ -89,11 +94,11 @@ public class ClientInput extends Thread {
 
 						else{
 							if(inline.substring(2, inline.length()).length() <= 7){
-							Simulator.setWeightDisplay(inline.substring(2, inline.length()).trim());
+								Simulator.setWeightDisplay(inline.substring(2, inline.length()).trim());
 							}else{
-							outstream.writeBytes("S"+"\r\n");	
+								outstream.writeBytes("S"+"\r\n");	
 							}
-							
+
 						}
 						Simulator.printmenu();
 						outstream.writeBytes("D A"+"\r\n");
