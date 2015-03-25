@@ -62,7 +62,13 @@ public class Simulator {
 			ClientInput clientIn = new ClientInput(sock);
 			clientIn.start();	
 			clientList.add(clientIn);
-			System.out.println("####"+clientList.size());
+			//once a client connects the list will update and remove dead connections
+			for(int i = 0; i < clientList.size(); i++) {
+				if(clientList.get(i) == null) {
+					clientList.remove(i);
+				}
+			}
+			System.out.println("\nNew connection.\nClients in list: "+clientList.size());
 		}
 	}
 
