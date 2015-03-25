@@ -25,28 +25,22 @@ public class ClientInput extends Thread {
 
 	public boolean checkRM20(String str) {
 		int index = 0; 
-		if(str.startsWith("\"", str.indexOf("\"", index))) { 					//tjekker om en substring med start i index, starter med "
-			index = str.indexOf("\"",index);									//hvis ja opdateres index og der forsættes
-			if(str.startsWith("\"", str.indexOf("\"", index+1))) {
-				index = str.indexOf("\"",index+1);
-				if(str.startsWith(" ", index)) {								//tjekker efter hver anden forekomst af ", om der er et mellemrum før det næste
-					if(str.startsWith("\"", str.indexOf("\"", index+1))) {
-						index = str.indexOf("\"",index+1);
-						if(str.startsWith("\"", str.indexOf("\"", index+1))) {
-							index = str.indexOf("\"",index+1);
-							if(str.startsWith(" ", index)) {
-								if(str.startsWith("\"", str.indexOf("\"", index+1))) {
-									index = str.indexOf("\"",index);
-									if(str.startsWith("\"", str.indexOf("\"", index+1)) && str.indexOf("\"", index+1) == str.lastIndexOf("\"")) {
-										return true;
-									}
-								}
-							}
-						}
-					}
-				}
+		int nrOfAnf = 0;
+		int[] anfPlacement = new int[6];
+		for(int i = 0; i < str.length(); i++){
+			if(str.substring(i, i).equals("\"")){
+				anfPlacement[i] = i;
+				nrOfAnf++;
 			}
-		}return false;
+		}
+		if(nrOfAnf == 6 && str.substring(anfPlacement[2], anfPlacement[2]+2).equals(" \"") 
+				&& str.substring(anfPlacement[4], anfPlacement[4]+2).equals(" \"")
+				&& str.substring(anfPlacement[6], anfPlacement[6]+2).equals("\r\n")
+				){
+		return true;
+		}
+		
+		return false;
 	}
 
 	@Override
