@@ -98,7 +98,12 @@ public class ClientInput extends Thread {
 						}else{
 							outstream.writeBytes("S"+"\r\n");	
 						}	
-					}else if (inline.startsWith("D")){
+					}else if (inline.equals("DW")){
+							Simulator.setWeightDisplay("");
+							Simulator.printmenu();
+							outstream.writeBytes("DW A"+"\r\n");
+					}
+					else if (inline.startsWith("D")){
 						if (inline.equals("D")){
 							Simulator.setWeightDisplay("");
 							Simulator.printmenu();
@@ -149,8 +154,9 @@ public class ClientInput extends Thread {
 						System.out.close();
 						instream.close();
 						outstream.close();
-						System.exit(0);
 						SimInput.stopGracefully();
+						System.exit(0);
+					
 					}
 				}
 			}catch(NullPointerException e1){
