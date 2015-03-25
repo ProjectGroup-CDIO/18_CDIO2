@@ -83,10 +83,18 @@ public class ClientInput extends Thread {
 						}
 					}
 					else if (inline.startsWith("D")){
-						if (inline.equals("D"))
+						if (inline.equals("D")){
 							Simulator.setInstruktionsDisplay("");
-						else
-							Simulator.setInstruktionsDisplay(inline.substring(2, inline.length()).trim());
+						}
+
+						else{
+							if(inline.substring(2, inline.length()).length() <= 7){
+							Simulator.setWeightDisplay(inline.substring(2, inline.length()).trim());
+							}else{
+							outstream.writeBytes("S"+"\r\n");	
+							}
+							
+						}
 						Simulator.printmenu();
 						outstream.writeBytes("D A"+"\r\n");
 					}
