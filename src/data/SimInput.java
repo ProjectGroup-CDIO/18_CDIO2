@@ -3,9 +3,9 @@ import java.util.Scanner;
 
 public class SimInput extends Thread {
 	
-	private volatile boolean stop = false;
+	private volatile static boolean stop = false;
 	
-	public void stopGracefully (){
+	public static void stopGracefully (){
 		stop = true;
 	}
 
@@ -13,8 +13,7 @@ public class SimInput extends Thread {
 	
 	@Override
 	public void run() {
-		boolean finished = false;
-		while(!stop && !finished) {
+		while(!stop) {
 			String input = keyb.nextLine();
 
 			if(!(input.isEmpty())) {
@@ -44,4 +43,5 @@ public class SimInput extends Thread {
 			}	
 		}
 	}
+	
 }
