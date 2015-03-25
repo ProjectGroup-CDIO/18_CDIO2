@@ -64,7 +64,7 @@ public class Simulator {
 			ClientInput clientIn = new ClientInput(sock);
 			clientIn.start();	
 			clientList.add(clientIn);
-			
+			System.out.println("####"+clientList.size());
 		}
 	}
 

@@ -12,9 +12,9 @@ import java.net.*;
 
 
 public class ClientInput extends Thread {
-	private static BufferedReader instream;
-	private static DataOutputStream outstream;
-	private static String inline;
+	private BufferedReader instream;
+	private DataOutputStream outstream;
+	private String inline;
 	static Scanner keyb = new Scanner(System.in);
 	private Socket sock;
 	
@@ -34,14 +34,21 @@ public class ClientInput extends Thread {
 
 		Simulator.printmenu();
 		while(true) {
+			try {
+				Thread.sleep(35);
+			} catch (InterruptedException e2) {
+				
+			}
 			try{
 				while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
+					System.out.println(inline);
 					//When we get a message with RM20 8 we will reply with a message from the server.
 					if (inline.startsWith("RM20 8")){
 						inline = inline.substring(7, inline.length());
-
 						String input = keyb.nextLine();
 						outstream.writeBytes(input+ "\r\n");
+						
+					
 					}
 					else if (inline.startsWith("D")){
 						if (inline.equals("D"))
@@ -53,7 +60,7 @@ public class ClientInput extends Thread {
 					}
 					else if (inline.startsWith("T")){
 						Simulator.setTara(Simulator.getBrutto());
-						if(String.valueOf(Simulator.getTara()).length() < 7 ){
+						if(String.valueOf(Simulator.getTara()).length() <= 7 ){
 							outstream.writeBytes("T S      " + (Simulator.getTara()) + "kg"+"\r\n");
 						}else{
 							outstream.writeBytes("You done goofed in the tara!");
@@ -66,7 +73,7 @@ public class ClientInput extends Thread {
 					}
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 						String temp= inline.substring(2,inline.length()).trim();
-						if(temp.length() < 7){
+						if(temp.length() <= 7){
 							Simulator.setBrutto(Double.parseDouble(temp));
 							Simulator.printmenu();
 							outstream.writeBytes("DB"+"\r\n");
