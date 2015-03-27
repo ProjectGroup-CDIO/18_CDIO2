@@ -12,12 +12,13 @@ public class SimInput extends Thread {
 		stop = true;
 	}
 
-	static Scanner keyb = new Scanner(System.in);
+	private Scanner keyb = new Scanner(System.in);
+	
 	
 	@Override
 	public void run() {
 		while(!stop) {
-			String input = "";
+			String input = " ";
 			try {
 				input = keyb.nextLine();
 			} catch (NoSuchElementException e1) {
@@ -60,6 +61,8 @@ public class SimInput extends Thread {
 					SimInput.stopGracefully();
 					System.out.close();
 					System.exit(0);
+				} else if(input.equals("")) {
+					continue;
 				}
 			}	
 		}
