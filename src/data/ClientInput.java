@@ -81,10 +81,11 @@ public class ClientInput extends Thread {
 						if(checkRM20(inline)) {
 							System.out.print("Tryk ENTER og derefter dit svar");
 							Simulator.setInstruktionsDisplay(inline);
+							Simulator.printmenu();
+							System.out.println("\nSvar: ");
 							String input = keyb.nextLine();
 							if(input.equals("")) {
 								outstream.writeBytes("RM20 B"+"\r\n");
-								continue;
 							} else if(input.charAt(0) != '\"' && input.charAt(input.length()-1) != '\"') {
 								input = "\""+input+"\"";
 								outstream.writeBytes("RM20 A "+input+ "\r\n");
@@ -95,7 +96,8 @@ public class ClientInput extends Thread {
 								input = "\""+input;
 								outstream.writeBytes("RM20 A "+input+ "\r\n");
 							} else outstream.writeBytes("RM20 A "+input+ "\r\n");
-						}
+						} else outstream.writeBytes("Korrekt kommando er RM20 8 <besked>");
+						
 					}else if(inline.startsWith("P111")){
 						if(inline.length() <= 35){
 							if(inline.charAt(5)== '\"' && inline.charAt(inline.length()-1) == '\"'){
