@@ -73,13 +73,12 @@ public class ClientInput extends Thread {
 			}
 			try{
 				while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
-					//System.out.println(inline);
 					//When we get a message with RM20 8 we will reply with a message from the server.
 					if (inline.startsWith("RM20 8")){
 						inline = inline.substring(7, inline.length()).trim();
 						//Validation check
 						if(checkRM20(inline)) {
-							System.out.print("Tryk ENTER og derefter dit svar");
+							System.out.print("\nTryk ENTER og derefter dit svar");
 							Simulator.setInstruktionsDisplay(inline);
 							Simulator.printmenu();
 							System.out.println("\nSvar: ");
