@@ -73,17 +73,18 @@ public class ClientInput extends Thread {
 			}
 			try{
 				while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
-					System.out.println(inline);
+					//System.out.println(inline);
 					//When we get a message with RM20 8 we will reply with a message from the server.
 					if (inline.startsWith("RM20 8")){
 						inline = inline.substring(7, inline.length()).trim();
 						//Validation check
 						if(checkRM20(inline)) {
 							Simulator.setInstruktionsDisplay(inline);
+							Simulator.printmenu();
+							System.out.println("\nSvar: ");
 							String input = keyb.nextLine();
 							if(input.equals("")) {
 								outstream.writeBytes("RM20 B"+"\r\n");
-								continue;
 							} else if(input.charAt(0) != '\"' && input.charAt(input.length()-1) != '\"') {
 								input = "\""+input+"\"";
 								outstream.writeBytes("RM20 A "+input+ "\r\n");
@@ -94,7 +95,8 @@ public class ClientInput extends Thread {
 								input = "\""+input;
 								outstream.writeBytes("RM20 A "+input+ "\r\n");
 							} else outstream.writeBytes("RM20 A "+input+ "\r\n");
-						}
+						} else outstream.writeBytes("Korrekt kommando er RM20 8 <besked>");
+						
 					}else if(inline.startsWith("P111")){
 						if(inline.length() <= 35){
 							if(inline.charAt(5)== '\"' && inline.charAt(inline.length()-1) == '\"'){
