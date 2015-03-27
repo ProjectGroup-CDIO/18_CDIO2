@@ -78,10 +78,9 @@ public class ClientInput extends Thread {
 						inline = inline.substring(7, inline.length()).trim();
 						//Validation check
 						if(checkRM20(inline)) {
-							System.out.print("\nTryk ENTER og derefter dit svar");
 							Simulator.setInstruktionsDisplay(inline);
 							Simulator.printmenu();
-							System.out.println("\nSvar: ");
+							System.out.print("\nBesked modtaget. Se instruktionsdisplay.\nTryk ENTER og derefter dit svar");
 							String input = keyb.nextLine();
 							if(input.equals("")) {
 								outstream.writeBytes("RM20 B"+"\r\n");
@@ -95,7 +94,7 @@ public class ClientInput extends Thread {
 								input = "\""+input;
 								outstream.writeBytes("RM20 A "+input+ "\r\n");
 							} else outstream.writeBytes("RM20 A "+input+ "\r\n");
-						} else outstream.writeBytes("Korrekt kommando er RM20 8 <besked>");
+						} else outstream.writeBytes("Korrekt kommando er RM20 8 <\"besked\" \"besked\" \"besked\">");
 						
 					}else if(inline.startsWith("P111")){
 						if(inline.length() <= 35){
