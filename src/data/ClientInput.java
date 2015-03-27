@@ -80,11 +80,13 @@ public class ClientInput extends Thread {
 						inline = inline.substring(7, inline.length()).trim();
 						//Validation check
 						if(checkRM20(inline)) {
+
 							correctmsg = true; 
 							System.out.print("Tryk ENTER og derefter dit svar");
+
 							Simulator.setInstruktionsDisplay(inline);
 							Simulator.printmenu();
-							System.out.println("\nSvar: ");
+							System.out.print("\nBesked modtaget. Se instruktionsdisplay.\nTryk ENTER og derefter dit svar");
 							String input = keyb.nextLine();
 							if(input.equals("")) {
 								outstream.writeBytes("RM20 B"+"\r\n");
@@ -99,7 +101,6 @@ public class ClientInput extends Thread {
 								outstream.writeBytes("RM20 A "+input+ "\r\n");
 							} else outstream.writeBytes("RM20 A "+input+ "\r\n");
 						}
-
 					}else if(inline.startsWith("P111")){
 						if(inline.length() <= 35){
 							if(inline.charAt(5)== '\"' && inline.charAt(inline.length()-1) == '\"'){
@@ -163,17 +164,16 @@ public class ClientInput extends Thread {
 					}
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 						if(inline.length() > 5){
-							String temp= inline.substring(2,inline.length()-4).trim();
+							String temp= inline.substring(2,inline.length()).trim();
 							if(temp.length() <= 7){
 								Simulator.setBrutto(Double.parseDouble(temp));
 								Simulator.printmenu();
 								outstream.writeBytes("DB"+"\r\n");
 								correctmsg = true; 
 							}
+
 						}
-//						else{
-//							outstream.writeBytes("S"+ "\r\n");	
-//						}
+
 					}
 					else if ((inline.equals("Q"))){
 						System.out.println("");
