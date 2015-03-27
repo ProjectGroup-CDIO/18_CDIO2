@@ -152,13 +152,15 @@ public class ClientInput extends Thread {
 					}
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 						if(inline.length() > 5){
-							String temp= inline.substring(2,inline.length()-4).trim();
+							String temp= inline.substring(2,inline.length()).trim();
 							if(temp.length() <= 7){
 								Simulator.setBrutto(Double.parseDouble(temp));
 								Simulator.printmenu();
 								outstream.writeBytes("DB"+"\r\n");
 							}
-
+							else{
+								outstream.writeBytes("S \r\n");
+							}
 						}else{
 							outstream.writeBytes("S \r\n");	
 						}
