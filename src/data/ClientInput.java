@@ -61,6 +61,8 @@ public class ClientInput extends Thread {
 		} catch (IOException e1) {
 			System.out.println("Error: "+e1.getMessage());
 			//e1.printStackTrace();
+		} catch (NullPointerException e2) {
+			System.out.println("Error: "+e2.getMessage());
 		}
 
 		Simulator.printmenu();
@@ -108,13 +110,9 @@ public class ClientInput extends Thread {
 								outstream.writeBytes("P111 A"+"\r\n");
 								correctmsg = true;
 							}
-							//							else{
-							//								outstream.writeBytes("S"+"\r\n");
-							//							}
+						
 						}
-						//						else{
-						//							outstream.writeBytes("S"+"\r\n");	
-						//						}	
+						
 					}
 
 					else if (inline.equals("DW")){
@@ -153,9 +151,6 @@ public class ClientInput extends Thread {
 								correctmsg = true; 
 							}
 						}
-						//						else{
-						//							outstream.writeBytes("S" +"\r\n");
-						//						}
 						Simulator.printmenu();
 					}
 
@@ -181,13 +176,17 @@ public class ClientInput extends Thread {
 
 					else if ((inline.equals("Q"))){
 						System.out.println("");
-						System.out.println("Program stoppet Q modtaget paa com port");
-						System.in.close();
-						System.out.close();
+						System.out.println("Program stoppet Q modtaget");
+						SimInput.stopGracefully();
+						Simulator.stopLoop();
+						Simulator.closedSockets();
 						instream.close();
 						outstream.close();
-						SimInput.stopGracefully();
-						System.exit(0);
+						System.out.println();
+						System.in.close();
+						System.out.close();
+						
+						//	System.exit(0);
 
 					}
 					if(!correctmsg){
