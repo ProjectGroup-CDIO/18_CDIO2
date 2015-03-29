@@ -17,7 +17,7 @@ public class ClientInput extends Thread {
 	private String inline;
 	static Scanner keyb = new Scanner(System.in);
 	private Socket sock;
-	
+
 	public Socket getSocket() {
 		return sock;
 	}
@@ -114,9 +114,9 @@ public class ClientInput extends Thread {
 								outstream.writeBytes("P111 A"+"\r\n");
 								correctmsg = true;
 							}
-						
+
 						}
-						
+
 					}
 
 					else if (inline.equals("DW")){
@@ -167,63 +167,58 @@ public class ClientInput extends Thread {
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 						if(inline.length() >= 3){
 							String temp= inline.substring(2,inline.length()).trim();
-							if(temp.length() <= 7 && (temp.matches("[0-9]+"))){
-								if(temp.contains(".")){
-									try {
-										Simulator.setBrutto(Double.parseDouble(temp));	
-									} catch (NumberFormatException e) {
-										outstream.writeBytes("S");
-										//e.printStackTrace();
-									}
-								} else {
-									try {
-										Simulator.setBrutto((double) Integer.parseInt(temp));	
-									} catch (NumberFormatException e) {
-										outstream.writeBytes("S");
-										//e.printStackTrace();
-									}			
+							if(temp.length() <= 7 && (temp.matches("[0-9.]+"
+									))){
+								try {
+									Simulator.setBrutto(Double.parseDouble(temp));	
+								} catch (NumberFormatException e) {
+									outstream.writeBytes("Sdouble");
+									//e.printStackTrace();
 								}
-								Simulator.printmenu();
-								
-								outstream.writeBytes("DB"+"\r\n");
-								correctmsg = true; 
 							}
-
+							if(temp.length() <= 7 && (temp.matches("[0-9]+")) ){
+								try {
+									Simulator.setBrutto((double) Integer.parseInt(temp));	
+								} catch (NumberFormatException e) {
+									outstream.writeBytes("Sint");
+									//e.printStackTrace();
+								}			
+							}
+							Simulator.printmenu();
+							outstream.writeBytes("DB"+"\r\n");
+							correctmsg = true; 
 						}
+				} else if ((inline.equals("Q"))){
+					System.out.println("");
+					System.out.println("Program stoppet Q modtaget");
+					SimInput.stopGracefully();
+					Simulator.stopLoop();
+					Simulator.closedSockets();
+					instream.close();
+					outstream.close();
+					System.out.println();
+					System.in.close();
+					System.out.close();
 
-					}
+					//	System.exit(0);
 
-					else if ((inline.equals("Q"))){
-						System.out.println("");
-						System.out.println("Program stoppet Q modtaget");
-						SimInput.stopGracefully();
-						Simulator.stopLoop();
-						Simulator.closedSockets();
-						instream.close();
-						outstream.close();
-						System.out.println();
-						System.in.close();
-						System.out.close();
-						
-						//	System.exit(0);
-
-					}
-					if(!correctmsg){
-						outstream.writeBytes("S"+"\r\n");
-					}
 				}
-			}catch(NullPointerException e1){
-				//when a client terminates his connection i.e closes his computer or connection program
-				//the connection is set to null -> this means that we have to handle the thread that is still running
-				System.out.println("\nConnection has been terminated, closing thread");
-				break;
+				if(!correctmsg){
+					outstream.writeBytes("S"+"\r\n");
+				}
 			}
-			catch (Exception e){
-				System.out.println("Exception: "+e.getMessage());
-				//e.printStackTrace();
-			}
+		}catch(NullPointerException e1){
+			//when a client terminates his connection i.e closes his computer or connection program
+			//the connection is set to null -> this means that we have to handle the thread that is still running
+			System.out.println("\nConnection has been terminated, closing thread");
+			break;
+		}
+		catch (Exception e){
+			System.out.println("Exception: "+e.getMessage());
+			//e.printStackTrace();
 		}
 	}
+}
 }
 
 
