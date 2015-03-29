@@ -91,11 +91,13 @@ public class Simulator {
 		System.out.println("                                                 ");
 		System.out.println("Debug info:                                      ");
 		try {
-			System.out.println("Hooked up to " + sock.getInetAddress()            );
+			for(ClientInput client : clientList) {
+				System.out.println("Hooked up to: "+client.getSocket().getInetAddress());
+			}
 		} catch (NullPointerException e) {
 			System.out.println("Hooked up to n/a");
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		System.out.println("Brutto: " + (brutto)+ " kg"                       );
 		System.out.println("Streng modtaget: "+inline)                         ;
