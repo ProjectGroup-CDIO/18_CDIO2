@@ -83,7 +83,6 @@ public class ClientInput extends Thread {
 						//Validation check
 						if(checkRM20(inline)) {
 							correctmsg = true; 
-							System.out.print("Tryk ENTER og derefter dit svar");
 							Simulator.setInstruktionsDisplay(inline);
 							Simulator.printmenu();
 							System.out.print("\nBesked modtaget. Se instruktionsdisplay.\nTryk ENTER og derefter dit svar");
