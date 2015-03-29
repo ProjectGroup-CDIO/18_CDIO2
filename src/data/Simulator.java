@@ -61,7 +61,6 @@ public class Simulator {
 		simIn.start();
 
 		while(connectListener){
-
 			try {
 				Socket sock = serverSock.accept();
 				ClientInput clientIn = new ClientInput(sock);
