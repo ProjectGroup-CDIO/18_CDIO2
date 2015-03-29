@@ -35,18 +35,18 @@ public class ClientInput extends Thread {
 		int indices[] = new int[6];
 		int j = 0;
 		while(i < str.length()) {
-			if(str.charAt(i) == '"') {
-				indices[j] = i;
-				j++;
-				count++;
-			}
-			i++;
+			if(str.charAt(i) == '\"') {
+				if(indices[5] == 0) {
+					indices[j] = i;
+					j++;
+				} count++;
+			} i++;
 		}
 		if(count == 6) {
-			//check to see if there one and only one space between the 2-3 and 4-5 quotations marks
-			if(str.charAt(indices[1]+1)== ' ' && str.charAt(indices[1]+2) == '"'
-					&& str.charAt(indices[3]+1) == ' ' && str.charAt(indices[3]+2) == '"' &&
-					str.indexOf('"', indices[5]) == str.lastIndexOf('"')) {
+			//check to see if there is one and only one space between the 2nd-3rd and 4th-5th quotations marks
+			if(str.charAt(indices[1]+1)== ' ' && str.charAt(indices[1]+2) == '\"' 
+					&& str.charAt(indices[3]+1) == ' ' && str.charAt(indices[3]+2) == '\"' 
+					&& str.indexOf('\"', indices[5]) == str.lastIndexOf('\"')) {
 				return true;				
 			} else return false;
 		}else return false;
@@ -73,16 +73,17 @@ public class ClientInput extends Thread {
 			}
 			try{
 				while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
+					boolean correctmsg = false;
 					//System.out.println(inline);
 					//When we get a message with RM20 8 we will reply with a message from the server.
 					if (inline.startsWith("RM20 8")){
 						inline = inline.substring(7, inline.length()).trim();
 						//Validation check
 						if(checkRM20(inline)) {
-							System.out.print("Tryk ENTER og derefter dit svar");
+							correctmsg = true; 
 							Simulator.setInstruktionsDisplay(inline);
 							Simulator.printmenu();
-							System.out.println("\nSvar: ");
+							System.out.print("\nBesked modtaget. Se instruktionsdisplay.\nTryk ENTER og derefter dit svar");
 							String input = keyb.nextLine();
 							if(input.equals("")) {
 								outstream.writeBytes("RM20 B"+"\r\n");
@@ -96,75 +97,90 @@ public class ClientInput extends Thread {
 								input = "\""+input;
 								outstream.writeBytes("RM20 A "+input+ "\r\n");
 							} else outstream.writeBytes("RM20 A "+input+ "\r\n");
-						} else outstream.writeBytes("Korrekt kommando er RM20 8 <besked>");
-						
-					}else if(inline.startsWith("P111")){
+						}
+					}
+
+					else if(inline.startsWith("P111")){
 						if(inline.length() <= 35){
 							if(inline.charAt(5)== '\"' && inline.charAt(inline.length()-1) == '\"'){
 								Simulator.setInstruktionsDisplay(inline.substring(3, inline.length()-1).trim());
 								Simulator.printmenu();
-								outstream.writeBytes("D A"+"\r\n");
+								outstream.writeBytes("P111 A"+"\r\n");
+								correctmsg = true;
 							}
-							else{
-								outstream.writeBytes("S"+"\r\n");
-							}
-						}else{
-							outstream.writeBytes("S"+"\r\n");	
-						}	
-					}else if (inline.equals("DW")){
+							//							else{
+							//								outstream.writeBytes("S"+"\r\n");
+							//							}
+						}
+						//						else{
+						//							outstream.writeBytes("S"+"\r\n");	
+						//						}	
+					}
+
+					else if (inline.equals("DW")){
 						Simulator.setWeightDisplay("");
 						Simulator.printmenu();
 						outstream.writeBytes("DW A"+"\r\n");
+						correctmsg = true; 
 					}
+
 					else if (inline.startsWith("D")){
 						if (inline.equals("D")){
 							Simulator.setWeightDisplay("");
 							Simulator.printmenu();
 							outstream.writeBytes("D A"+"\r\n");
+							correctmsg = true; 
 						}
 
 						else{
-							if(inline.length() <= 9){
+							if(inline.length() < 10 && inline.length() > 3){
 								if(inline.charAt(2)== '\"' && inline.charAt(inline.length()-1) == '\"'){
 									Simulator.setWeightDisplay(inline.substring(3, inline.length()-1).trim());
 									Simulator.printmenu();
 									outstream.writeBytes("D A"+"\r\n");
-								}
-								else{
-									outstream.writeBytes("S"+"\r\n");
-								}
-							}else{
-								outstream.writeBytes("S"+"\r\n");	
+									correctmsg = true; 
+								}					
 							}
 
 						}						
 					}
-					else if (inline.equals("T")){
-						Simulator.setTara(Simulator.getBrutto());
-						if(String.valueOf(Simulator.getTara()).length() <= 7 ){
-							outstream.writeBytes("T S      " + (Simulator.getTara()) + "kg"+"\r\n");
-						}else{
-							outstream.writeBytes("S" +"\r\n");
+
+					else if (inline.startsWith("T")){
+						if (inline.equals("T")){
+
+							Simulator.setTara(Simulator.getBrutto());
+
+							if(String.valueOf(Simulator.getTara()).length() <= 7 ){
+								outstream.writeBytes("T S      " + (Simulator.getTara()) + "kg"+"\r\n");
+								correctmsg = true; 
+							}
 						}
+						//						else{
+						//							outstream.writeBytes("S" +"\r\n");
+						//						}
 						Simulator.printmenu();
 					}
+
 					else if (inline.equals("S")){
 						Simulator.printmenu();
 						outstream.writeBytes("S S      " + (Simulator.getBrutto()-Simulator.getTara())+ " kg"  +"\r\n");
+						correctmsg = true; 
 					}
+
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 						if(inline.length() > 5){
-							String temp= inline.substring(2,inline.length()-4).trim();
+							String temp= inline.substring(2,inline.length()).trim();
 							if(temp.length() <= 7){
 								Simulator.setBrutto(Double.parseDouble(temp));
 								Simulator.printmenu();
 								outstream.writeBytes("DB"+"\r\n");
+								correctmsg = true; 
 							}
 
-						}else{
-							outstream.writeBytes("S \r\n");	
 						}
+
 					}
+
 					else if ((inline.equals("Q"))){
 						System.out.println("");
 						System.out.println("Program stoppet Q modtaget paa com port");
@@ -175,6 +191,9 @@ public class ClientInput extends Thread {
 						SimInput.stopGracefully();
 						System.exit(0);
 
+					}
+					if(!correctmsg){
+						outstream.writeBytes("S"+"\r\n");
 					}
 				}
 			}catch(NullPointerException e1){

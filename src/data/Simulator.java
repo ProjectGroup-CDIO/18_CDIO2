@@ -62,13 +62,7 @@ public class Simulator {
 			ClientInput clientIn = new ClientInput(sock);
 			clientIn.start();	
 			clientList.add(clientIn);
-			//once a client connects the list will update and remove dead connections
-			for(int i = 0; i < clientList.size(); i++) {
-				if(clientList.get(i) == null) {
-					clientList.remove(i);
-				}
-			}
-			System.out.println("\nNew connection.\nClients in list: "+clientList.size());
+			System.out.println("####"+clientList.size());
 		}
 	}
 
@@ -93,11 +87,11 @@ public class Simulator {
 		System.out.println("Streng modtaget: "+inline)                         ;
 		System.out.println("                                                 ");
 		System.out.println("Denne vegt simulator lytter på ordrene           ");
-		System.out.println("D, RM20 8, S, T, B, Q, P111                      ");
+		System.out.println("D, RM20 8, S, T, B, Q                                ");
 		System.out.println("paa kommunikationsporten.                        ");
 		System.out.println("******");
-		System.out.println("Tast T for tara (svarende til knaptryk paa vegt)");
-		System.out.println("Tast B for ny brutto (svarende til at belastningen paa vegt ændres)");
+		System.out.println("Tast T for tara (svarende til knaptryk på vægt)");
+		System.out.println("Tast B for ny brutto (svarende til at belastningen på vægt ændres)");
 		System.out.println("Tast Q for at afslutte program program");
 		System.out.println("Indtast (T/B/Q for knaptryk / brutto ændring / quit)");
 		System.out.print  ("Tast her: ");
