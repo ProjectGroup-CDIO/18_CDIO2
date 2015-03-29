@@ -165,28 +165,30 @@ public class ClientInput extends Thread {
 					}
 
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
-						if(inline.length() >= 3 && !inline.substring(2,inline.length()-1).matches("[a-zA-Z!\"#€%&/()[]{}=?:;_-^¨*'@,$§]")){
-							String temp= inline.substring(2,inline.length()).trim();
+						if(inline.length() >= 3){
+							String temp= inline.substring(2,inline.length()).trim();	
 							
-							if(temp.length() <= 7 && (temp.matches("[0-9.]+"))){
+							if(temp.length() <= 7 && (temp.matches("[0-9[.]{1}]+"))){
 								try {
-									Simulator.setBrutto(Double.parseDouble(temp));	
+									Simulator.setBrutto(Double.parseDouble(temp));
+									outstream.writeBytes("DB"+"\r\n");
+									correctmsg = true; 
 								} catch (NumberFormatException e) {
-									outstream.writeBytes("Sdouble");
+									outstream.writeBytes("S");
 									//e.printStackTrace();
 								}
 							}
-							if(temp.length() <= 7 && (temp.matches("[0-9]+")) ){
+							if(temp.length() <= 7 && (temp.matches("[0-9]+") && !temp.contains(".")) ){
 								try {
 									Simulator.setBrutto((double) Integer.parseInt(temp));	
+									outstream.writeBytes("DB"+"\r\n");
+									correctmsg = true; 
 								} catch (NumberFormatException e) {
-									outstream.writeBytes("Sint");
+									outstream.writeBytes("S");
 									//e.printStackTrace();
 								}			
 							}
-							Simulator.printmenu();
-							outstream.writeBytes("DB"+"\r\n");
-							correctmsg = true; 
+							Simulator.printmenu(); 
 						}
 				} else if ((inline.equals("Q"))){
 					System.out.println("");
