@@ -35,7 +35,7 @@ public class ClientInput extends Thread {
 		int indices[] = new int[6];
 		int j = 0;
 		while(i < str.length()) {
-			if(str.charAt(i) == '\"') {
+			if(str.charAt(i) == '"') {
 				indices[j] = i;
 				j++;
 				count++;
@@ -44,9 +44,9 @@ public class ClientInput extends Thread {
 		}
 		if(count == 6) {
 			//check to see if there one and only one space between the 2-3 and 4-5 quotations marks
-			if(str.charAt(indices[1]+1)== ' ' && str.charAt(indices[1]+2) == '\"'
-					&& str.charAt(indices[3]+1) == ' ' && str.charAt(indices[3]+2) == '\"' &&
-					str.indexOf('\"', indices[5]) == str.lastIndexOf('\"')) {
+			if(str.charAt(indices[1]+1)== ' ' && str.charAt(indices[1]+2) == '"'
+					&& str.charAt(indices[3]+1) == ' ' && str.charAt(indices[3]+2) == '"' &&
+					str.indexOf('"', indices[5]) == str.lastIndexOf('"')) {
 				return true;				
 			} else return false;
 		}else return false;
