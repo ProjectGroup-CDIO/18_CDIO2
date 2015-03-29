@@ -5,16 +5,16 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SimInput extends Thread {
-	
+
 	private volatile static boolean stop = false;
-	
+
 	public static void stopGracefully (){
 		stop = true;
 	}
 
 	private Scanner keyb = new Scanner(System.in);
-	
-	
+
+
 	@Override
 	public void run() {
 		while(!stop) {
@@ -37,18 +37,20 @@ public class SimInput extends Thread {
 					}
 					Simulator.printmenu();	
 				} else if(input.toUpperCase().startsWith("B")) {
-					String temp = input.substring(1, input.length()).trim();
-					if(temp.length() < 7) {
-						double tempDouble;
-						try {
-							tempDouble = Double.parseDouble(temp);
-							Simulator.setBrutto(tempDouble);	
-						} catch (NumberFormatException e) {
-							System.out.println("Error: "+e.getMessage());
-							e.printStackTrace();
-						}
-						Simulator.printmenu();
-					}
+					if(input.length() > 5) { //tjekker om input er over 3 cifre (uden "B_")
+						String temp = input.substring(1, input.length()).trim();
+						if(temp.length() < 7) { //tjekker om det trimmede input er under 7 cifre
+							double tempDouble;
+							try {
+								tempDouble = Double.parseDouble(temp);
+								Simulator.setBrutto(tempDouble);	
+							} catch (NumberFormatException e) {
+								System.out.println("Error: "+e.getMessage());
+								//e.printStackTrace();
+							}
+							Simulator.printmenu();
+						} 
+					} 
 				} else if(input.toUpperCase().startsWith("Q")) {
 					System.out.println("");
 					System.out.println("Program stoppet Q modtaget paa com port");
@@ -56,7 +58,7 @@ public class SimInput extends Thread {
 						System.in.close();
 					} catch (IOException e) {
 						System.out.println("Fejl ved System.in.close()");
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
 					SimInput.stopGracefully();
 					System.out.close();
@@ -67,5 +69,5 @@ public class SimInput extends Thread {
 			}	
 		}
 	}
-	
+
 }

@@ -81,7 +81,7 @@ public class ClientInput extends Thread {
 					if (inline.startsWith("RM20 8")){
 						inline = inline.substring(7, inline.length()).trim();
 						//Validation check
-						if(checkRM20(inline)) {
+						if(checkRM20(inline) && inline.length() <= 30) {
 							correctmsg = true; 
 							Simulator.setInstruktionsDisplay(inline);
 							Simulator.printmenu();
@@ -145,9 +145,8 @@ public class ClientInput extends Thread {
 
 					else if (inline.startsWith("T")){
 						if (inline.equals("T")){
-
 							Simulator.setTara(Simulator.getBrutto());
-
+							Simulator.setBrutto(0);
 							if(String.valueOf(Simulator.getTara()).length() <= 7 ){
 								outstream.writeBytes("T S      " + (Simulator.getTara()) + "kg"+"\r\n");
 								correctmsg = true; 
@@ -203,7 +202,7 @@ public class ClientInput extends Thread {
 			}
 			catch (Exception e){
 				System.out.println("Exception: "+e.getMessage());
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
