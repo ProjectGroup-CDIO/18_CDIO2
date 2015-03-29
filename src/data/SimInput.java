@@ -45,7 +45,7 @@ public class SimInput extends Thread {
 							Simulator.setBrutto(tempDouble);	
 						} catch (NumberFormatException e) {
 							System.out.println("Error: "+e.getMessage());
-							e.printStackTrace();
+							//e.printStackTrace();
 						}
 						Simulator.printmenu();
 					}
@@ -56,7 +56,7 @@ public class SimInput extends Thread {
 						System.in.close();
 					} catch (IOException e) {
 						System.out.println("Fejl ved System.in.close()");
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
 					SimInput.stopGracefully();
 					System.out.close();

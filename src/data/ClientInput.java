@@ -204,7 +204,7 @@ public class ClientInput extends Thread {
 			}
 			catch (Exception e){
 				System.out.println("Exception: "+e.getMessage());
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
