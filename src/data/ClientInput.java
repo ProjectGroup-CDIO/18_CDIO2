@@ -165,10 +165,10 @@ public class ClientInput extends Thread {
 					}
 
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
-						if(inline.length() >= 3){
+						if(inline.length() >= 3 && !inline.substring(2,inline.length()-1).matches("[a-zA-Z!\"#€%&/()[]{}=?:;_-^¨*'@,$§]")){
 							String temp= inline.substring(2,inline.length()).trim();
-							if(temp.length() <= 7 && (temp.matches("[0-9.]+"
-									))){
+							
+							if(temp.length() <= 7 && (temp.matches("[0-9.]+"))){
 								try {
 									Simulator.setBrutto(Double.parseDouble(temp));	
 								} catch (NumberFormatException e) {

@@ -89,9 +89,10 @@ public class Simulator {
 		System.out.println("                                                 ");
 		System.out.println("                                                 ");
 		System.out.println("Debug info:                                      ");
+		System.out.print("Hooked up to: ");
 		try {
 			for(ClientInput client : clientList) {
-				System.out.println("Hooked up to: "+client.getSocket().getInetAddress());
+				System.out.println("\n"+client.getSocket().getInetAddress());
 			}
 		} catch (NullPointerException e) {
 			System.out.println("Hooked up to n/a");
