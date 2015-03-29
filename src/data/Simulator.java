@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,6 +22,7 @@ public class Simulator {
 	private static String weightDisplay = "";
 	private static int portdst = 8000;
 	private static Socket sock;
+	private static boolean connectListener = true;
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Indtast ønsket port# eller tryk ENTER for port 8000");
@@ -57,17 +59,28 @@ public class Simulator {
 		//This halts the program until someone makes a connection with it.
 
 		simIn.start();
-		while(true){			
-			Socket sock = serverSock.accept();
-			ClientInput clientIn = new ClientInput(sock);
-			clientIn.start();	
-			clientList.add(clientIn);
-			System.out.println("####"+clientList.size());
+
+		while(connectListener){
+
+			try {
+				Socket sock = serverSock.accept();
+				ClientInput clientIn = new ClientInput(sock);
+				clientIn.start();	
+				clientList.add(clientIn);
+			} catch (SocketException e) {
+				
+				//e.printStackTrace();
+			}
+			System.out.println("# of clients connected: "+clientList.size());
 		}
 	}
-/**
- * The menu print method, prints the method
- */
+	public static void stopLoop() {
+		connectListener = false;
+
+	}
+	/**
+	 * The menu print method, prints the method
+	 */
 	public static void printmenu(){
 		for (int i=0;i<25;i++) System.out.println(" ");
 		System.out.println("*************************************************");
@@ -141,9 +154,18 @@ public class Simulator {
 
 	public static synchronized void setWeightDisplay(String input) {
 		weightDisplay = input;
-		
-	}
 
+	}
+public static synchronized void closedSockets(){
+	try {
+		serverSock.close();
+		sock.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+}
 
 
 
