@@ -71,7 +71,9 @@ public class Simulator {
 			System.out.println("\nNew connection.\nClients in list: "+clientList.size());
 		}
 	}
-
+/**
+ * The menu print method, prints the method
+ */
 	public static void printmenu(){
 		for (int i=0;i<25;i++) System.out.println(" ");
 		System.out.println("*************************************************");
