@@ -139,7 +139,7 @@ public class Simulator {
 		Simulator.tara = tara;
 	}
 
-	public static void setWeightDisplay(String input) {
+	public static synchronized void setWeightDisplay(String input) {
 		weightDisplay = input;
 		
 	}

@@ -39,10 +39,8 @@ public class ClientInput extends Thread {
 				if(indices[5] == 0) {
 					indices[j] = i;
 					j++;
-				}
-				count++;
-			}
-			i++;
+				} count++;
+			} i++;
 		}
 		if(count == 6) {
 			//check to see if there is one and only one space between the 2nd-3rd and 4th-5th quotations marks
