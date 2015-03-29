@@ -17,6 +17,10 @@ public class ClientInput extends Thread {
 	private String inline;
 	static Scanner keyb = new Scanner(System.in);
 	private Socket sock;
+	
+	public Socket getSocket() {
+		return sock;
+	}
 
 	public ClientInput(Socket s) {
 		sock = s;
