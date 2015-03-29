@@ -148,7 +148,6 @@ public class ClientInput extends Thread {
 					else if (inline.startsWith("T")){
 						if (inline.equals("T")){
 							Simulator.setTara(Simulator.getBrutto());
-							Simulator.setBrutto(0);
 							if(String.valueOf(Simulator.getTara()).length() <= 7 ){
 								outstream.writeBytes("T S      " + (Simulator.getTara()) + "kg"+"\r\n");
 								correctmsg = true; 
@@ -167,10 +166,10 @@ public class ClientInput extends Thread {
 					}
 
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
-						if(inline.length() > 5){
+						if(inline.length() >= 3){
 							String temp= inline.substring(2,inline.length()).trim();
 							if(temp.length() <= 7){
-								Simulator.setBrutto(Double.parseDouble(temp));
+								Simulator.setBrutto((double) Integer.parseInt(temp));
 								Simulator.printmenu();
 								outstream.writeBytes("DB"+"\r\n");
 								correctmsg = true; 

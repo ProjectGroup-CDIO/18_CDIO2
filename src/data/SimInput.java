@@ -29,7 +29,6 @@ public class SimInput extends Thread {
 			if(!(input.isEmpty())) {
 				if(input.toUpperCase().startsWith("T")) {
 					Simulator.setTara(Simulator.getBrutto());
-					Simulator.setBrutto(0);
 					if(String.valueOf(Simulator.getTara()).length() < 7 ){
 						System.out.println("T S      " + Simulator.getTara() + "kg"+"\r\n");
 					}else{
@@ -37,13 +36,11 @@ public class SimInput extends Thread {
 					}
 					Simulator.printmenu();	
 				} else if(input.toUpperCase().startsWith("B")) {
-					if(input.length() > 5) { //tjekker om input er over 3 cifre (uden "B_")
+					if(input.length() >= 3) { //tjekker om input er over 3 cifre (uden "B_")
 						String temp = input.substring(1, input.length()).trim();
-						if(temp.length() < 7) { //tjekker om det trimmede input er under 7 cifre
-							double tempDouble;
-							try {
-								tempDouble = Double.parseDouble(temp);
-								Simulator.setBrutto(tempDouble);	
+						if(temp.length() < 7) { //tjekker om det trimmede input er under 7 cifre;
+							try {	
+								Simulator.setBrutto((double) Integer.parseInt(temp));	
 							} catch (NumberFormatException e) {
 								System.out.println("Error: "+e.getMessage());
 								//e.printStackTrace();
