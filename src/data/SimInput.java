@@ -39,12 +39,22 @@ public class SimInput extends Thread {
 					if(input.length() >= 3) { //tjekker om input er over 3 cifre (uden "B_")
 						String temp = input.substring(1, input.length()).trim();
 						if(temp.length() < 7) { //tjekker om det trimmede input er under 7 cifre;
-							try {	
-								Simulator.setBrutto((double) Integer.parseInt(temp));	
-							} catch (NumberFormatException e) {
-								System.out.println("Error: "+e.getMessage());
-								//e.printStackTrace();
+							if(temp.contains(".")){
+								try {
+									Simulator.setBrutto((double) Integer.parseInt(temp));	
+								} catch (NumberFormatException e) {
+									System.out.println("S");
+									//e.printStackTrace();
+								}			
+							} else {
+								try {
+									Simulator.setBrutto(Double.parseDouble(temp));	
+								} catch (NumberFormatException e) {
+									System.out.println("S");
+									//e.printStackTrace();
+								}
 							}
+							
 							Simulator.printmenu();
 						} 
 					} 

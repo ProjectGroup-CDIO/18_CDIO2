@@ -101,7 +101,6 @@ public class Simulator {
 			//e.printStackTrace();
 		}
 		System.out.println("Brutto: " + (brutto)+ " kg"                       );
-		System.out.println("Streng modtaget: "+inline)                         ;
 		System.out.println("                                                 ");
 		System.out.println("Denne vegt simulator lytter på ordrene           ");
 		System.out.println("D, RM20 8, S, T, B, Q                                ");

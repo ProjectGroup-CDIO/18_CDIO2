@@ -167,9 +167,24 @@ public class ClientInput extends Thread {
 					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
 						if(inline.length() >= 3){
 							String temp= inline.substring(2,inline.length()).trim();
-							if(temp.length() <= 7){
-								Simulator.setBrutto((double) Integer.parseInt(temp));
+							if(temp.length() <= 7 && (temp.matches("[0-9]+"))){
+								if(temp.contains(".")){
+									try {
+										Simulator.setBrutto((double) Integer.parseInt(temp));	
+									} catch (NumberFormatException e) {
+										outstream.writeBytes("S");
+										//e.printStackTrace();
+									}			
+								} else {
+									try {
+										Simulator.setBrutto(Double.parseDouble(temp));	
+									} catch (NumberFormatException e) {
+										outstream.writeBytes("S");
+										//e.printStackTrace();
+									}
+								}
 								Simulator.printmenu();
+								
 								outstream.writeBytes("DB"+"\r\n");
 								correctmsg = true; 
 							}
