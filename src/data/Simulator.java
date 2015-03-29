@@ -17,7 +17,6 @@ public class Simulator {
 	private static ArrayList<ClientInput> clientList = new ArrayList<ClientInput>();
 	private static double brutto = 0;
 	private static double tara = 0;
-	private static String inline;
 	private static String instruktionsDisplay = "";
 	private static String weightDisplay = "";
 	private static int portdst = 8000;
