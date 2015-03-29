@@ -170,18 +170,18 @@ public class ClientInput extends Thread {
 							if(temp.length() <= 7 && (temp.matches("[0-9]+"))){
 								if(temp.contains(".")){
 									try {
-										Simulator.setBrutto((double) Integer.parseInt(temp));	
-									} catch (NumberFormatException e) {
-										outstream.writeBytes("S");
-										//e.printStackTrace();
-									}			
-								} else {
-									try {
 										Simulator.setBrutto(Double.parseDouble(temp));	
 									} catch (NumberFormatException e) {
 										outstream.writeBytes("S");
 										//e.printStackTrace();
 									}
+								} else {
+									try {
+										Simulator.setBrutto((double) Integer.parseInt(temp));	
+									} catch (NumberFormatException e) {
+										outstream.writeBytes("S");
+										//e.printStackTrace();
+									}			
 								}
 								Simulator.printmenu();
 								
