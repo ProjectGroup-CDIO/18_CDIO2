@@ -1,0 +1,7 @@
+How to run 18_CDIO2.jar
+
+You have to open the Commandline/CMD and then enter:
+
+java -jar "filename.jar"
+
+Note: You can drag and drop the file after you have written java -jar

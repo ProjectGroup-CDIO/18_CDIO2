@@ -1,2 +1,0 @@
-OprId: 11 command: Afvejning:Netto: 50.0, Tara: 20.016/03/2015 15:30:40
-OprId: 11 command: Afvejning:Netto: 3.0, Tara: 3.016/03/2015 15:30:48
