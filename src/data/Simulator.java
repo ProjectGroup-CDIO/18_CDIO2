@@ -25,7 +25,6 @@ public class Simulator {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Indtast ønsket port# eller tryk ENTER for port 8000");
-		//printmenu();
 
 		String input;
 		int inputInt = 0;
@@ -41,7 +40,7 @@ public class Simulator {
 			} catch (NumberFormatException e) {
 				System.out.println("Error: "+e.getMessage());
 			}
-			//Hvis der er number format exception er inputInt = 0 og if-sætningen køres ikke
+			//In case of NumberFormatException inputInt will be 0, and if-statement wont be entered
 			if(inputInt >= 1 && inputInt <= 65536) {
 				portdst = inputInt;
 				try {
@@ -66,7 +65,7 @@ public class Simulator {
 				clientIn.start();	
 				clientList.add(clientIn);
 			} catch (SocketException e) {
-				
+
 				//e.printStackTrace();
 			}
 			System.out.println("# of clients connected: "+clientList.size());
@@ -77,7 +76,7 @@ public class Simulator {
 
 	}
 	/**
-	 * The menu print method, prints the method
+	 * prints the menu
 	 */
 	public static void printmenu(){
 		for (int i=0;i<25;i++) System.out.println(" ");
@@ -156,16 +155,16 @@ public class Simulator {
 		weightDisplay = input;
 
 	}
-public static synchronized void closedSockets(){
-	try {
-		serverSock.close();
-		sock.close();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	public static synchronized void closeSockets(){
+		try {
+			serverSock.close();
+			sock.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
-	
-}
 
 
 

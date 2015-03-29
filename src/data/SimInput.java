@@ -54,7 +54,7 @@ public class SimInput extends Thread {
 									//e.printStackTrace();
 								}
 							}
-							
+
 							Simulator.printmenu();
 						} 
 					} 

@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package data;
 
 import java.io.BufferedReader;
@@ -80,7 +78,6 @@ public class ClientInput extends Thread {
 			try{
 				while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
 					boolean correctmsg = false;
-					//System.out.println(inline);
 					//When we get a message with RM20 8 we will reply with a message from the server.
 					if (inline.startsWith("RM20 8")){
 						inline = inline.substring(7, inline.length()).trim();
@@ -164,10 +161,10 @@ public class ClientInput extends Thread {
 						correctmsg = true; 
 					}
 
-					else if (inline.startsWith("B")){ // denne ordre findes ikke på en fysisk vægt
+					else if (inline.startsWith("B")){
 						if(inline.length() >= 3){
 							String temp= inline.substring(2,inline.length()).trim();	
-							
+
 							if(temp.length() <= 7 && (temp.matches("[0-9[.]{1}]+"))){
 								try {
 									Simulator.setBrutto(Double.parseDouble(temp));
@@ -190,37 +187,35 @@ public class ClientInput extends Thread {
 							}
 							Simulator.printmenu(); 
 						}
-				} else if ((inline.equals("Q"))){
-					System.out.println("");
-					System.out.println("Program stoppet Q modtaget");
-					SimInput.stopGracefully();
-					Simulator.stopLoop();
-					Simulator.closedSockets();
-					instream.close();
-					outstream.close();
-					System.out.println();
-					System.in.close();
-					System.out.close();
-
-					//	System.exit(0);
-
+					} else if ((inline.equals("Q"))){
+						System.out.println("");
+						System.out.println("Program stoppet Q modtaget");
+						SimInput.stopGracefully();
+						Simulator.stopLoop();
+						Simulator.closeSockets();
+						instream.close();
+						outstream.close();
+						System.out.println();
+						System.in.close();
+						System.out.close();
+						System.exit(0);
+					}
+					if(!correctmsg){
+						outstream.writeBytes("S"+"\r\n");
+					}
 				}
-				if(!correctmsg){
-					outstream.writeBytes("S"+"\r\n");
-				}
+			}catch(NullPointerException e1){
+				//when a client terminates his connection i.e closes his computer or connection program
+				//the connection is set to null -> this means that we have to handle the thread that is still running
+				System.out.println("\nConnection has been terminated, closing thread");
+				break;
 			}
-		}catch(NullPointerException e1){
-			//when a client terminates his connection i.e closes his computer or connection program
-			//the connection is set to null -> this means that we have to handle the thread that is still running
-			System.out.println("\nConnection has been terminated, closing thread");
-			break;
-		}
-		catch (Exception e){
-			System.out.println("Exception: "+e.getMessage());
-			//e.printStackTrace();
+			catch (Exception e){
+				System.out.println("Exception: "+e.getMessage());
+				//e.printStackTrace();
+			}
 		}
 	}
-}
 }
 
 
